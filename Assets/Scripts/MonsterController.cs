@@ -19,6 +19,5 @@ public class MonsterController : MonoBehaviour {
     void OnMouseDown()
     {
         Debug.Log("Poke");
-        transform.Translate(1, 0, 0);
     }
 }
