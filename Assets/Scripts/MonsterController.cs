@@ -1,0 +1,24 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class MonsterController : MonoBehaviour {
+
+	// Use this for initialization
+	void Start ()
+    {
+
+	}
+	
+	// Update is called once per frame
+	void Update ()
+    {
+
+    }
+
+
+    void OnMouseDown()
+    {
+        Debug.Log("Poke");
+        transform.Translate(1, 0, 0);
+    }
+}
