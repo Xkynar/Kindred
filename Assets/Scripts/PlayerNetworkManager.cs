@@ -18,7 +18,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     IEnumerator Setup()
     {
-        while (squadList == null)
+        while (squadList == null || squadList == "")
         {
             yield return null;
         }
@@ -32,17 +32,23 @@ public class PlayerNetworkManager : NetworkBehaviour
         this.squadList = squadList;
     }
 
-    void Update()
+    [Command]
+    void CmdDoSomething()
     {
-        if (isLocalPlayer && Input.GetMouseButtonDown(0))
-        {
-            RpcDoSomething();
-        }
+        RpcDoSomething();
     }
 
     [ClientRpc]
     void RpcDoSomething()
     {
         Debug.Log("Player " + netId + " clicked a button.");
+    }
+
+    void Update()
+    {
+        if (isLocalPlayer && Input.GetMouseButtonDown(0))
+        {
+            CmdDoSomething();
+        }
     }
 }
