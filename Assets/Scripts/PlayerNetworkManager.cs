@@ -13,7 +13,17 @@ public class PlayerNetworkManager : NetworkBehaviour
             CmdSyncSquadList(Random.Range(1, 100).ToString());
         }
 
-        Debug.Log("Player " + netId + ": " + squadList);
+        StartCoroutine("Setup");
+    }
+
+    IEnumerator Setup()
+    {
+        while (squadList == null)
+        {
+            yield return null;
+        }
+
+        Debug.Log("Player " + netId + " Squad: " + squadList);
     }
 
     [Command]
