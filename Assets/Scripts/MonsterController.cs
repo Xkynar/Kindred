@@ -3,11 +3,12 @@ using System.Collections;
 
 public class MonsterController : MonoBehaviour 
 {
+    private GameManager gameManager;
     private PlayerNetworkManager playerNetworkManager;
 
 	void Start()
     {
-        
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 	}
 
     public void setPlayerNetworkManager(PlayerNetworkManager playerNetworkManager)
@@ -17,9 +18,6 @@ public class MonsterController : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (playerNetworkManager.isLocalPlayer)
-            Debug.Log("Mine");
-        else
-            Debug.Log("Not Mine");
+        gameManager.monsterClicked(this, playerNetworkManager.isLocalPlayer);
     }
 }
