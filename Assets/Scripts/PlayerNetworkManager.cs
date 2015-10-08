@@ -11,7 +11,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetString("side", "LEFT");
+        //PlayerPrefs.SetString("side", "RIGHT");
 
         if (isLocalPlayer)
         {
@@ -52,6 +52,8 @@ public class PlayerNetworkManager : NetworkBehaviour
             GameObject monster = Instantiate(monsterExample, Vector3.zero, Quaternion.identity) as GameObject;
             monster.transform.parent = squadParent.transform;
             monster.transform.localPosition = new Vector3(initialPos + squadSpacing * i, 0f, 0f);
+            monster.transform.localRotation = Quaternion.identity;
+            monster.GetComponent<MonsterController>().setPlayerNetworkManager(this);
         }
     }
 

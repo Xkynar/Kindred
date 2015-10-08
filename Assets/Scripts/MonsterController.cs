@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MonsterController : MonoBehaviour {
+public class MonsterController : MonoBehaviour 
+{
+    private PlayerNetworkManager playerNetworkManager;
 
-	// Use this for initialization
-	void Start ()
+	void Start()
     {
-
+        
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void setPlayerNetworkManager(PlayerNetworkManager playerNetworkManager)
     {
-
+        this.playerNetworkManager = playerNetworkManager;
     }
-
 
     void OnMouseDown()
     {
-        Debug.Log("Poke");
+        if (playerNetworkManager.isLocalPlayer)
+            Debug.Log("Mine");
+        else
+            Debug.Log("Not Mine");
     }
 }
