@@ -1,28 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ARTouchController : MonoBehaviour {
-
-	// Use this for initialization
-	void Start ()
-    {
-	
-	}
-	
-	// Update is called once per frame
+public class ARTouchController : MonoBehaviour
+{
 	void Update ()
     {
         RaycastHit hit = new RaycastHit();
 
-        for (int i = 0; i < Input.touchCount; i++)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetTouch(i).phase.Equals(TouchPhase.Began))
-            {
-                // Construct a ray from the current touch coordinates
-                Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(i).position);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out hit))
-                    hit.transform.gameObject.SendMessage("OnMouseDown");
+            if (Physics.Raycast(ray, out hit))
+            {
+                hit.transform.parent.gameObject.SendMessage("OnMouseDown");
             }
         }
 	}
