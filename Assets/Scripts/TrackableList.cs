@@ -6,19 +6,9 @@ using Vuforia;
 
 public class TrackableList : MonoBehaviour
 {
-    void Start()
-    {
-        InvokeRepeating("CheckTargets", 10f, 10f);
-    }
-
     void CheckTargets()
     {
-        // Get the StateManager
         StateManager sm = TrackerManager.Instance.GetStateManager();
-
-        // Query the StateManager to retrieve the list of
-        // currently 'active' trackables 
-        //(i.e. the ones currently being tracked by Vuforia)
         IEnumerable<TrackableBehaviour> activeTrackables = sm.GetActiveTrackableBehaviours();
 
         // Iterate through the list of active trackables

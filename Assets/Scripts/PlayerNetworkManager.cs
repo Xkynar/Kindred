@@ -4,65 +4,82 @@ using System.Collections;
 
 public class PlayerNetworkManager : NetworkBehaviour
 {
-    [SyncVar] public string squadList;
-    [SyncVar] public string side;
-
-    public GameObject monsterExample;
+    [SyncVar] public bool setup = false;
+    [SyncVar] public string role;
+    [SyncVar] public string nickname;
+    [SyncVar] public bool ready;
 
     void Start()
     {
-        //PlayerPrefs.SetString("side", "RIGHT");
+        PlayerPrefs.SetString("role", "P1");
+        PlayerPrefs.SetString("nickname", "vascozzz");
 
         if (isLocalPlayer)
         {
-            CmdSyncSetup(Random.Range(1, 100).ToString(), PlayerPrefs.GetString("side"));
+            // alert server to setup all copies
+            CmdSyncSetup(PlayerPrefs.GetString("role"), PlayerPrefs.GetString("nickname"));
+
+            // setup game manager
+            GameManager.instance.SetLocalPlayer(this);
         }
 
-        StartCoroutine("Setup");
+           StartCoroutine("Setup");
     }
 
     IEnumerator Setup()
     {
-        while (squadList == null || squadList == "")
+        while (!setup)
         {
             yield return null;
         }
 
-        SpawnSquad();
-    }
-
-    void SpawnSquad()
-    {
-        GameObject squadParent = null;
-        int squadCount = 5;
-        float squadSpacing = 0.2f;
-        float initialPos = -squadSpacing * (squadCount - 1) / 2;
-
-        if (side == "LEFT")
+        if (role != "SPEC")
         {
-            squadParent = GameObject.FindGameObjectWithTag("LeftSquad");
-        }
-        else if (side == "RIGHT")
-        {
-            squadParent = GameObject.FindGameObjectWithTag("RightSquad");
-        }
-
-        for (int i = 0; i < squadCount; i++)
-        {
-            GameObject monster = Instantiate(monsterExample, Vector3.zero, Quaternion.identity) as GameObject;
-            monster.transform.parent = squadParent.transform;
-            monster.transform.localPosition = new Vector3(initialPos + squadSpacing * i, 0f, 0f);
-            monster.transform.localRotation = Quaternion.identity;
-            monster.GetComponent<MonsterController>().setPlayerNetworkManager(this);
+            GameManager.instance.ShowReadyButton();
         }
     }
 
     [Command]
-    void CmdSyncSetup(string squadList, string side)
+    void CmdSyncSetup(string role, string nickname)
     {
-        this.squadList = squadList;
-        this.side = side;
+        this.role = role;
+        this.nickname = nickname;
+        this.setup = true;
     }
+
+    [Command]
+    void CmdSetPlayerReady(bool ready)
+    {
+        this.ready = ready;
+    }
+
+    public void SetPlayerReady(bool ready)
+    {
+        if (isLocalPlayer)
+        {
+            CmdSetPlayerReady(ready);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [Command]
     void CmdDoSomething()
