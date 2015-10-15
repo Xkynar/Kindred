@@ -4,10 +4,9 @@ using System.Collections;
 
 public class PlayerNetworkManager : NetworkBehaviour
 {
-    [SyncVar] public bool setup = false;
-    [SyncVar] public string role;
-    [SyncVar] public string nickname;
-    [SyncVar] public bool ready;
+    public bool ready = false;
+    public string role;
+    public string nickname;
 
     void Start()
     {
@@ -16,39 +15,63 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            // alert server to setup all copies
-            CmdSyncSetup(PlayerPrefs.GetString("role"), PlayerPrefs.GetString("nickname"));
+            // 
+            CmdSetup(PlayerPrefs.GetString("role"), PlayerPrefs.GetString("nickname"));
 
-            // setup game manager
-            GameManager.instance.SetLocalPlayer(this);
-        }
+            //
+            ClientManager.instance.SetLocalPlayer(this);
 
-           StartCoroutine("Setup");
-    }
-
-    IEnumerator Setup()
-    {
-        while (!setup)
-        {
-            yield return null;
-        }
-
-        if (role != "SPEC")
-        {
-            GameManager.instance.ShowReadyButton();
+            if (role != "SPEC")
+            {
+                ClientManager.instance.ShowReadyButton();
+            }
         }
     }
 
     [Command]
-    void CmdSyncSetup(string role, string nickname)
+    void CmdSetup(string role, string nickname)
+    {
+        RpcSetup(role, nickname);
+
+        if (role == "P1")
+        {
+            ServerManager.instance.setPlayerP1(this);
+        }
+        else if (role == "P2")
+        {
+            ServerManager.instance.setPlayerP2(this);
+        }
+    }
+
+    [ClientRpc]
+    void RpcSetup(string role, string nickname)
     {
         this.role = role;
         this.nickname = nickname;
-        this.setup = true;
     }
+
+
+
+
+
+
+
 
     [Command]
     void CmdSetPlayerReady(bool ready)
+    {
+        RpcSetPlayerReady(ready);
+        RpcDebug(ServerManager.instance.p1.ready, ServerManager.instance.p2.ready);
+    }
+
+    [ClientRpc]
+    void RpcDebug(bool p1, bool p2)
+    {
+        Debug.Log("Player1: " + (p1 ? "ready" : "not ready") + " Player2: " + (p2 ? "ready" : "not ready"));
+    }
+
+    [ClientRpc]
+    void RpcSetPlayerReady(bool ready)
     {
         this.ready = ready;
     }

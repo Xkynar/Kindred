@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour
+public class ClientManager : MonoBehaviour
 {
-    public static GameManager instance = null;
+    public static ClientManager instance = null;
 
     private PlayerNetworkManager localPlayer;
-    private GameState currentState;
 
     [SerializeField] GameObject readyButton;
 
@@ -35,8 +35,22 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerReady(bool ready)
     {
-        Debug.Log("Clicked ready button");
-
         localPlayer.SetPlayerReady(ready);
+        SetMonsters();
+    }
+
+    public void SetMonsters()
+    {
+        List<GameObject> imageTargets = Camera.main.GetComponent<TrackableList>().GetImageTargets();
+
+        foreach (GameObject imageTarget in imageTargets)
+        {
+            MonsterController monsterController = GetComponent<MonsterController>();
+
+            if (monsterController != null)
+            {
+                monsterController.SetMine(true);
+            }
+        }
     }
 }
