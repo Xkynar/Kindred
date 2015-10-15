@@ -19,13 +19,27 @@ public class ServerManager : MonoBehaviour
         }
     }
 
-    public void setPlayerP1(PlayerNetworkManager p1)
+    /*
+     * Stores Player1 for later use
+     */
+    public void SetPlayerP1(PlayerNetworkManager p1)
     {
         this.p1 = p1;
     }
 
-    public void setPlayerP2(PlayerNetworkManager p2)
+    /*
+     * Stores Player2 for later use
+     */
+    public void SetPlayerP2(PlayerNetworkManager p2)
     {
         this.p2 = p2;
+    }
+
+    /*
+     * Returns true if all players are ready
+     */
+    public bool ArePlayersReady()
+    {
+        return p1 != null && p2 != null && p1.ready && p2.ready;
     }
 }

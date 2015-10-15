@@ -10,24 +10,30 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetString("role", "P1");
-        PlayerPrefs.SetString("nickname", "vascozzz");
+        //PlayerPrefs.SetString("role", "P1");
+        //PlayerPrefs.SetString("nickname", "vascozzz");
 
         if (isLocalPlayer)
         {
-            // 
+            // Share setup info
             CmdSetup(PlayerPrefs.GetString("role"), PlayerPrefs.GetString("nickname"));
 
-            //
+            // Save local player for later access
             ClientManager.instance.SetLocalPlayer(this);
 
             if (role != "SPEC")
             {
+                // Show Ready Button on HUD
                 ClientManager.instance.ShowReadyButton();
             }
         }
     }
-
+    
+    /* 
+     * Setup:
+     * Server will spread every client's role and nickname to all copies
+     * Sever will store Player1 and Player2 for later access
+     */
     [Command]
     void CmdSetup(string role, string nickname)
     {
@@ -50,12 +56,19 @@ public class PlayerNetworkManager : NetworkBehaviour
         this.nickname = nickname;
     }
 
+    /* 
+     * Ready:
+     * Server spreads ready info to all copies
+     * The server copy check if all players are ready and starts the game
+     */
 
-
-
-
-
-
+    public void SetPlayerReady(bool ready)
+    {
+        if (isLocalPlayer)
+        {
+            CmdSetPlayerReady(ready);
+        }
+    }
 
     [Command]
     void CmdSetPlayerReady(bool ready)
@@ -77,52 +90,4 @@ public class PlayerNetworkManager : NetworkBehaviour
         }
     }
 
-    public void SetPlayerReady(bool ready)
-    {
-        if (isLocalPlayer)
-        {
-            CmdSetPlayerReady(ready);
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    [Command]
-    void CmdDoSomething()
-    {
-        RpcDoSomething();
-    }
-
-    [ClientRpc]
-    void RpcDoSomething()
-    {
-        Debug.Log("Player " + netId + " clicked a button.");
-    }
-
-    [ClientCallback]
-    void Update()
-    {
-        if (isLocalPlayer && Input.GetMouseButtonDown(0))
-        {
-            CmdDoSomething();
-        }
-    }
 }

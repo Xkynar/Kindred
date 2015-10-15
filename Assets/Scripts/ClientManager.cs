@@ -10,6 +10,7 @@ public class ClientManager : MonoBehaviour
     private PlayerNetworkManager localPlayer;
 
     [SerializeField] GameObject readyButton;
+    [SerializeField] GameObject ARCamera;
 
     void Awake()
     {
@@ -36,12 +37,12 @@ public class ClientManager : MonoBehaviour
     public void SetPlayerReady(bool ready)
     {
         localPlayer.SetPlayerReady(ready);
-        //SetMonsters();
+        SetMonsters();
     }
 
     public void SetMonsters()
     {
-        List<GameObject> imageTargets = Camera.main.GetComponent<TrackableList>().GetImageTargets();
+        List<GameObject> imageTargets = ARCamera.GetComponent<TrackableList>().GetImageTargets();
 
         foreach (GameObject imageTarget in imageTargets)
         {
