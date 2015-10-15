@@ -36,7 +36,7 @@ public class ClientManager : MonoBehaviour
     public void SetPlayerReady(bool ready)
     {
         localPlayer.SetPlayerReady(ready);
-        SetMonsters();
+        //SetMonsters();
     }
 
     public void SetMonsters()

@@ -35,11 +35,11 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (role == "P1")
         {
-            ServerManager.instance.setPlayerP1(this);
+            ServerManager.instance.SetPlayerP1(this);
         }
         else if (role == "P2")
         {
-            ServerManager.instance.setPlayerP2(this);
+            ServerManager.instance.SetPlayerP2(this);
         }
     }
 
@@ -61,19 +61,20 @@ public class PlayerNetworkManager : NetworkBehaviour
     void CmdSetPlayerReady(bool ready)
     {
         RpcSetPlayerReady(ready);
-        RpcDebug(ServerManager.instance.p1.ready, ServerManager.instance.p2.ready);
-    }
-
-    [ClientRpc]
-    void RpcDebug(bool p1, bool p2)
-    {
-        Debug.Log("Player1: " + (p1 ? "ready" : "not ready") + " Player2: " + (p2 ? "ready" : "not ready"));
     }
 
     [ClientRpc]
     void RpcSetPlayerReady(bool ready)
     {
         this.ready = ready;
+
+        if(isServer)
+        {
+            if(ServerManager.instance.ArePlayersReady())
+            {
+                Debug.Log("Starting game");
+            }
+        }
     }
 
     public void SetPlayerReady(bool ready)
