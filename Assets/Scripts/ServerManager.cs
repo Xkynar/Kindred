@@ -6,6 +6,7 @@ public class ServerManager : MonoBehaviour
     public static ServerManager instance = null;
 
     public PlayerNetworkManager p1, p2;
+    private PlayerNetworkManager currentPlayer;
 
     void Awake()
     {
@@ -16,6 +17,32 @@ public class ServerManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+        }
+    }
+
+    /*
+     * Starts the turn-based game. Call after all players are ready.
+     */
+    public void StartGame()
+    {
+        currentPlayer = p1;
+        p1.RpcSetTurn();
+    }
+
+    /*
+     * Switch player turn
+     */
+    public void SwitchTurn()
+    {
+        if(currentPlayer == p1)
+        {
+            currentPlayer = p2;
+            p2.RpcSetTurn();
+        }
+        else if(currentPlayer == p2)
+        {
+            currentPlayer = p1;
+            p1.RpcSetTurn();
         }
     }
 

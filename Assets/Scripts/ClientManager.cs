@@ -12,6 +12,8 @@ public class ClientManager : MonoBehaviour
     [SerializeField] GameObject readyButton;
     [SerializeField] GameObject ARCamera;
 
+    private GameState gameState;
+
     void Awake()
     {
         if (instance == null)
@@ -22,6 +24,11 @@ public class ClientManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        gameState = GameState.SETUP;
     }
 
     public void SetLocalPlayer(PlayerNetworkManager localPlayer)
@@ -44,6 +51,7 @@ public class ClientManager : MonoBehaviour
     {
         localPlayer.SetPlayerReady(ready);
         SetMonsters();
+        SetGameState(GameState.WAIT_TURN);
     }
 
     /*
@@ -61,6 +69,38 @@ public class ClientManager : MonoBehaviour
             {
                 monsterController.SetMine(true);
             }
+        }
+    }
+
+    /*
+     * Sets the client's game state
+     */
+    public void SetGameState(GameState gameState)
+    {
+        this.gameState = gameState;
+
+        //Handle this gamestate
+        switch(gameState)
+        {
+            case GameState.WAIT_TURN:
+                Debug.Log("Wait Turn");
+                break;
+
+            case GameState.PICK_MONSTER:
+                Debug.Log("Pick Monster");
+                break;
+
+            case GameState.SELECT_ACTION:
+                Debug.Log("Select Action");
+                break;
+
+            case GameState.TARGET_MONSTER:
+                Debug.Log("Target Monster");
+                break;
+
+            case GameState.WAIT_ACTION:
+                Debug.Log("Wait Action");
+                break;
         }
     }
 }

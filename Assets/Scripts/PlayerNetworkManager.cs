@@ -85,9 +85,27 @@ public class PlayerNetworkManager : NetworkBehaviour
         {
             if(ServerManager.instance.ArePlayersReady())
             {
-                Debug.Log("Starting game");
+                ServerManager.instance.StartGame();
             }
         }
     }
 
+    [ClientRpc]
+    public void RpcSetTurn()
+    {
+        if(isLocalPlayer)
+        {
+            ClientManager.instance.SetGameState(GameState.PICK_MONSTER);
+        }
+        else
+        {
+            Debug.Log("It's " + nickname + "'s turn");
+        }
+    }
+
+    [Command]
+    public void CmdEndTurn()
+    {
+        ServerManager.instance.SwitchTurn();
+    }
 }
