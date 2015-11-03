@@ -7,12 +7,11 @@ public class ClientManager : MonoBehaviour
 {
     public static ClientManager instance = null;
 
-    private PlayerNetworkManager localPlayer;
+    private PlayerNetworkManager networkManager;
+    private GameState gameState;
 
     [SerializeField] GameObject readyButton;
     [SerializeField] GameObject ARCamera;
-
-    private GameState gameState;
 
     void Awake()
     {
@@ -33,7 +32,7 @@ public class ClientManager : MonoBehaviour
 
     public void SetLocalPlayer(PlayerNetworkManager localPlayer)
     {
-        this.localPlayer = localPlayer;
+        this.networkManager = localPlayer;
     }
 
     /*
@@ -49,7 +48,7 @@ public class ClientManager : MonoBehaviour
      */
     public void SetPlayerReady(bool ready)
     {
-        localPlayer.SetPlayerReady(ready);
+        networkManager.SetPlayerReady(ready);
         SetMonsters();
         SetGameState(GameState.WAIT_TURN);
     }
@@ -60,7 +59,7 @@ public class ClientManager : MonoBehaviour
     public void SetMonsters()
     {
         List<GameObject> imageTargets = ARCamera.GetComponent<TrackableList>().GetImageTargets();
-       
+
         foreach (GameObject imageTarget in imageTargets)
         {
             MonsterController monsterController = imageTarget.GetComponent<MonsterController>();
@@ -80,7 +79,7 @@ public class ClientManager : MonoBehaviour
         this.gameState = gameState;
 
         //Handle this gamestate
-        switch(gameState)
+        switch (gameState)
         {
             case GameState.WAIT_TURN:
                 Debug.Log("Wait Turn");

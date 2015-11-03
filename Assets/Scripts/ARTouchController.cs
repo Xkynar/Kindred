@@ -13,7 +13,14 @@ public class ARTouchController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                hit.transform.parent.gameObject.SendMessage("OnMouseDown");
+                if (hit.transform.gameObject.tag == "Monster")
+                {
+                    hit.transform.parent.gameObject.SendMessage("OnMouseDown");
+                }
+                else
+                {
+                    hit.transform.gameObject.SendMessage("OnMouseDown");
+                }
             }
         }
 	}
