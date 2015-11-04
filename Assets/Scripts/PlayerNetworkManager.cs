@@ -5,8 +5,8 @@ using System.Collections;
 public class PlayerNetworkManager : NetworkBehaviour
 {
     public bool ready = false;
-    public string role;
-    public string nickname;
+    [SyncVar] public string role;
+    [SyncVar] public string nickname;
 
     void Start()
     {
@@ -37,7 +37,8 @@ public class PlayerNetworkManager : NetworkBehaviour
     [Command]
     void CmdSetup(string role, string nickname)
     {
-        RpcSetup(role, nickname);
+        this.role = role;
+        this.nickname = nickname;
 
         if (role == "P1")
         {
@@ -47,13 +48,6 @@ public class PlayerNetworkManager : NetworkBehaviour
         {
             ServerManager.instance.SetPlayerP2(this);
         }
-    }
-
-    [ClientRpc]
-    void RpcSetup(string role, string nickname)
-    {
-        this.role = role;
-        this.nickname = nickname;
     }
 
     /* 

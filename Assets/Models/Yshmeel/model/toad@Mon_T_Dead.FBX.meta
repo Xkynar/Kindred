@@ -1,0 +1,175 @@
+fileFormatVersion: 2
+guid: ff73ddff6339d54428146a56a5c12ff5
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Omni001
+    100002: Omni002
+    100004: toad
+    100006: toad 1
+    100008: toad Footsteps
+    100010: toad Head
+    100012: toad HeadNub
+    100014: toad L Calf
+    100016: toad L Clavicle
+    100018: toad L Finger0
+    100020: toad L Finger01
+    100022: toad L Finger0Nub
+    100024: toad L Finger1
+    100026: toad L Finger11
+    100028: toad L Finger1Nub
+    100030: toad L Foot
+    100032: toad L Forearm
+    100034: toad L Hand
+    100036: toad L Thigh
+    100038: toad L Toe0
+    100040: toad L Toe0Nub
+    100042: toad L UpperArm
+    100044: toad Neck
+    100046: toad Pelvis
+    100048: toad Prop1
+    100050: toad R Calf
+    100052: toad R Clavicle
+    100054: toad R Finger0
+    100056: toad R Finger01
+    100058: toad R Finger0Nub
+    100060: toad R Finger1
+    100062: toad R Finger11
+    100064: toad R Finger1Nub
+    100066: toad R Foot
+    100068: toad R Forearm
+    100070: toad R Hand
+    100072: toad R Thigh
+    100074: toad R Toe0
+    100076: toad R Toe0Nub
+    100078: toad R UpperArm
+    100080: toad Spine
+    100082: toad Tail
+    100084: toad Tail1
+    100086: toad Tail2
+    100088: toad Tail3
+    100090: toad Tail4
+    100092: toad TailNub
+    100094: //RootNode
+    100096: wepon
+    400000: Omni001
+    400002: Omni002
+    400004: toad
+    400006: toad 1
+    400008: toad Footsteps
+    400010: toad Head
+    400012: toad HeadNub
+    400014: toad L Calf
+    400016: toad L Clavicle
+    400018: toad L Finger0
+    400020: toad L Finger01
+    400022: toad L Finger0Nub
+    400024: toad L Finger1
+    400026: toad L Finger11
+    400028: toad L Finger1Nub
+    400030: toad L Foot
+    400032: toad L Forearm
+    400034: toad L Hand
+    400036: toad L Thigh
+    400038: toad L Toe0
+    400040: toad L Toe0Nub
+    400042: toad L UpperArm
+    400044: toad Neck
+    400046: toad Pelvis
+    400048: toad Prop1
+    400050: toad R Calf
+    400052: toad R Clavicle
+    400054: toad R Finger0
+    400056: toad R Finger01
+    400058: toad R Finger0Nub
+    400060: toad R Finger1
+    400062: toad R Finger11
+    400064: toad R Finger1Nub
+    400066: toad R Foot
+    400068: toad R Forearm
+    400070: toad R Hand
+    400072: toad R Thigh
+    400074: toad R Toe0
+    400076: toad R Toe0Nub
+    400078: toad R UpperArm
+    400080: toad Spine
+    400082: toad Tail
+    400084: toad Tail1
+    400086: toad Tail2
+    400088: toad Tail3
+    400090: toad Tail4
+    400092: toad TailNub
+    400094: //RootNode
+    400096: wepon
+    2300000: wepon
+    3300000: wepon
+    4300000: toad
+    4300002: wepon
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: toad
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
