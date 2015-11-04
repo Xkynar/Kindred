@@ -89,6 +89,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            Debug.Log("It's YOUR turn");
             ClientManager.instance.SetGameState(GameState.PICK_MONSTER);
         }
         else

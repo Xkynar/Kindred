@@ -172,7 +172,11 @@ public class ClientManager : MonoBehaviour
 
     public void EndTurn()
     {
-        networkManager.EndTurn();
+        // if I initiated the attack and am waiting its return
+        if (gameState == GameState.WAIT_ACTION)
+        {
+            networkManager.EndTurn();
+        }   
     }
 
     public void Attack(string selectedMonsterName, string targetedMonsterName, string attackName)
