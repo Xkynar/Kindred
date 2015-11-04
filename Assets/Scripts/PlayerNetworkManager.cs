@@ -75,7 +75,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         this.ready = ready;
 
-        if(isServer)
+        if (isServer)
         {
             if(ServerManager.instance.ArePlayersReady())
             {
@@ -87,13 +87,21 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSetTurn()
     {
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             ClientManager.instance.SetGameState(GameState.PICK_MONSTER);
         }
         else
         {
             Debug.Log("It's " + nickname + "'s turn");
+        }
+    }
+
+    public void EndTurn()
+    {
+        if (isLocalPlayer)
+        {
+            CmdEndTurn();
         }
     }
 
