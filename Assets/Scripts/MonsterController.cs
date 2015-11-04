@@ -64,20 +64,19 @@ public class MonsterController : MonoBehaviour
 
     private IEnumerator PerformAttack(string attackName, MonsterController targetedMonster)
     {
-        Vector3 originalPos = this.transform.position;
-        Vector3 targetPos = targetedMonster.gameObject.transform.position;
-        Vector3 goalPos = targetPos;
+        Transform originalTransf = this.transform.parent;
+        Transform targetedTransf = targetedMonster.transform;
 
         // move towards target
         animator.SetBool("Running", true);
 
         while (true)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, goalPos, Time.deltaTime * runningSpeed);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, targetedTransf.position, Time.deltaTime * runningSpeed);
 
-            if (Vector3.Distance(this.transform.position, goalPos) < 0.1f)
+            if (Vector3.Distance(this.transform.position, targetedTransf.position) < 0.1f)
             {
-                this.transform.position = goalPos;
+                this.transform.position = targetedTransf.position;
                 break;
             }
 
@@ -93,7 +92,6 @@ public class MonsterController : MonoBehaviour
             if (animator.IsInTransition(0) && animator.GetNextAnimatorStateInfo(0).IsName("Running"))
             {
                 targetedMonster.GetHit();
-                goalPos = originalPos;
                 break;
             }
 
@@ -103,11 +101,11 @@ public class MonsterController : MonoBehaviour
         // return
         while (true)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, goalPos, Time.deltaTime * runningSpeed);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, originalTransf.position, Time.deltaTime * runningSpeed);
 
-            if (Vector3.Distance(this.transform.position, goalPos) < 0.1f)
+            if (Vector3.Distance(this.transform.position, originalTransf.position) < 0.1f)
             {
-                this.transform.position = goalPos;
+                this.transform.position = originalTransf.position;
                 break;
             }
 

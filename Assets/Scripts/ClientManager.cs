@@ -172,7 +172,6 @@ public class ClientManager : MonoBehaviour
 
     public void EndTurn()
     {
-        SetGameState(GameState.WAIT_TURN);
         networkManager.EndTurn();
     }
 

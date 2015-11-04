@@ -101,6 +101,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            ClientManager.instance.SetGameState(GameState.WAIT_TURN);
             CmdEndTurn();
         }
     }
