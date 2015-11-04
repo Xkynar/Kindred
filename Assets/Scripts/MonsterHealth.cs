@@ -25,4 +25,10 @@ public class MonsterHealth : MonoBehaviour
         slider.value = currentHealth;
         fillImage.color = Color.Lerp(zeroHealthColor, fullHealthColor, currentHealth / startingHealth);
     }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+        SetHealthUI();
+    }
 }

@@ -170,6 +170,7 @@ public class ClientManager : MonoBehaviour
             Debug.Log("Selected " + clickedMonster.GetMonsterName() + ".");
 
             selectedMonster = clickedMonster;
+            selectedMonster.Select();
             SetGameState(GameState.TARGET_MONSTER);
         }
         else
@@ -195,7 +196,9 @@ public class ClientManager : MonoBehaviour
         {
             Debug.Log("Re-selected " + clickedMonster.GetMonsterName() + ".");
 
+            selectedMonster.Deselect();
             selectedMonster = clickedMonster;
+            selectedMonster.Select();
             SetGameState(GameState.TARGET_MONSTER);
         }
     }
@@ -208,12 +211,13 @@ public class ClientManager : MonoBehaviour
         // note that this will run on all clients, but the player that initiated the turn should be the only one to end it
         if (gameState == GameState.WAIT_ACTION)
         {
+            selectedMonster.Deselect();
             networkManager.EndTurn();
         }   
     }
 
     /*
-     * Initiates an attack. Called via RPC, via the PlayerNetworkManager, so all clients can sync attacks.
+     * Initiates an attack. Called via RPC, by the PlayerNetworkManager, so all clients can sync attacks.
      */
     public void Attack(string selectedMonsterName, string targetedMonsterName, string attackName)
     {

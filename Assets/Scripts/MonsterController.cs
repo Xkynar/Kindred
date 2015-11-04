@@ -5,15 +5,24 @@ public class MonsterController : MonoBehaviour
 {
     public float runningSpeed;
     public float turningSpeed;
+    public SkinnedMeshRenderer meshRenderer;
 
     private string monsterName;
     private Animator animator;
+    private MonsterHealth health;
     private bool isMine = false;
+    private Color initialOutline;
 
     void Start()
     {
         monsterName = this.gameObject.name;
         animator = this.GetComponent<Animator>();
+        health = this.GetComponent<MonsterHealth>();
+
+        if (meshRenderer != null)
+        {
+            initialOutline = meshRenderer.material.GetColor("_OutlineColor");
+        }
     }
 
     /*
@@ -38,6 +47,28 @@ public class MonsterController : MonoBehaviour
     public string GetMonsterName()
     {
         return monsterName;
+    }
+
+    /*
+     * Changes the outline of a monster to indicate it is now selected.
+     */
+    public void Select()
+    {
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.SetColor("_OutlineColor", Color.cyan);
+        }
+    }
+
+    /*
+     * Returns a monster's outline back to its initial state.
+     */
+    public void Deselect()
+    {
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.SetColor("_OutlineColor", initialOutline);
+        }
     }
 
     /*
