@@ -10,29 +10,14 @@ public class MonsterController : MonoBehaviour
     private Animator animator;
     private bool isMine = false;
 
-
     void Start()
     {
         monsterName = this.gameObject.name;
         animator = this.GetComponent<Animator>();
     }
 
-    void OnMouseDown()
-    {
-        if (isMine)
-        {
-            Debug.Log("Mine");
-        }
-        else
-        {
-            Debug.Log("NOT mine.");
-        }
-
-        ClientManager.instance.ClickedMonster(this);
-    }
-
     /*
-     * Sets monster ownership to local player.
+     * Sets monster ownership relative to the local player.
      */
     public void SetMine(bool isMine)
     {
@@ -47,21 +32,41 @@ public class MonsterController : MonoBehaviour
         return isMine;
     }
 
+    /*
+     * Returns monster's unique name.
+     */
     public string GetMonsterName()
     {
         return monsterName;
     }
 
+    /*
+     * Event triggered on mouse click (depends on the presence of a collider).
+     */
+    void OnMouseDown()
+    {
+        ClientManager.Instance.OnMonsterClick(this);
+    }
+
+    /*
+     * Initiates an attack coroutine.
+     */
     public void Attack(string attackName, MonsterController targetMonster)
     {
         StartCoroutine(PerformAttack(attackName, targetMonster));
     }
 
+    /*
+     * Handled separately in the event that something else needs to occur.
+     */
     public void GetHit()
     {
         animator.SetTrigger("Hit");
     }
-
+    
+    /*
+     * The actual attacking process, where movement and animations are handled.
+     */
     private IEnumerator PerformAttack(string attackName, MonsterController targetedMonster)
     {
         Transform originalTransf = this.transform.parent;
@@ -86,7 +91,7 @@ public class MonsterController : MonoBehaviour
         // attack
         animator.SetTrigger(attackName);
 
-        // wait for animation to end @TODO should this really be here? can call function on animation end via mecanim instead
+        // wait for animation to end
         while (true)
         {
             if (animator.IsInTransition(0) && animator.GetNextAnimatorStateInfo(0).IsName("Running"))
@@ -112,7 +117,8 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
 
+        // stop running, end turn
         animator.SetBool("Running", false);
-        ClientManager.instance.EndTurn();
+        ClientManager.Instance.EndTurn();
     }
 }
