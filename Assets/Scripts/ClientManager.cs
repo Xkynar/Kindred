@@ -10,6 +10,7 @@ public class ClientManager : MonoBehaviour
     private PlayerNetworkManager networkManager;
     private GameState gameState;
     private MonsterController selectedMonster;
+    private Dictionary<string, MonsterController> monsters;
 
     [SerializeField] GameObject readyButton;
     [SerializeField] GameObject ARCamera;
@@ -28,7 +29,8 @@ public class ClientManager : MonoBehaviour
 
     void Start()
     {
-        gameState = GameState.SETUP;
+        SetGameState(GameState.SETUP);
+        RegisterMonsters();
     }
 
     public void SetLocalPlayer(PlayerNetworkManager localPlayer)
@@ -49,21 +51,40 @@ public class ClientManager : MonoBehaviour
      */
     public void SetPlayerReady(bool ready)
     {
-        networkManager.SetPlayerReady(ready);
-        SetMonsters();
+        SetPlayerMonsters();
         SetGameState(GameState.WAIT_TURN);
+        networkManager.SetPlayerReady(ready);
     }
 
     /*
-     * Sets monster ownership for local player. 
+     * Stores all the monsters in the scene for fast lookups.
      */
-    public void SetMonsters()
+    private void RegisterMonsters()
     {
         List<GameObject> imageTargets = ARCamera.GetComponent<TrackableList>().GetImageTargets();
+        monsters = new Dictionary<string, MonsterController>();
 
         foreach (GameObject imageTarget in imageTargets)
         {
-            MonsterController monsterController = imageTarget.GetComponent<MonsterController>();
+            MonsterController monsterController = imageTarget.GetComponentInChildren<MonsterController>();
+
+            if (monsterController != null)
+            {
+                monsters.Add(monsterController.GetMonsterName(), monsterController);
+            }
+        }
+    }
+
+    /*
+     * Sets monster ownership of all visible monsters for local player. 
+     */
+    private void SetPlayerMonsters()
+    {
+        List<GameObject> imageTargets = ARCamera.GetComponent<TrackableList>().GetActiveImageTargets();
+
+        foreach (GameObject imageTarget in imageTargets)
+        {
+            MonsterController monsterController = imageTarget.GetComponentInChildren<MonsterController>();
 
             if (monsterController != null)
             {
@@ -113,7 +134,7 @@ public class ClientManager : MonoBehaviour
                 break;
 
             case GameState.PICK_MONSTER:
-                if (selectedMonster.IsMine())
+                if (clicked.IsMine())
                 {
                     Debug.Log("Selected " + clicked.gameObject.name);
                     selectedMonster = clicked;
@@ -130,10 +151,10 @@ public class ClientManager : MonoBehaviour
                 break;
 
             case GameState.TARGET_MONSTER:
-                if (!selectedMonster.IsMine())
+                if (!clicked.IsMine())
                 {
                     Debug.Log("Chose to attack " + clicked.gameObject.name);
-                    selectedMonster.Attack("Peace Breaker", clicked);
+                    networkManager.Attack(selectedMonster.GetMonsterName(), clicked.GetMonsterName(), "Peace Breaker");
                     SetGameState(GameState.WAIT_ACTION);
                 }
                 else
@@ -153,5 +174,13 @@ public class ClientManager : MonoBehaviour
     {
         SetGameState(GameState.WAIT_TURN);
         networkManager.EndTurn();
+    }
+
+    public void Attack(string selectedMonsterName, string targetedMonsterName, string attackName)
+    {
+        MonsterController selectedMonster = monsters[selectedMonsterName];
+        MonsterController targetedMonster = monsters[targetedMonsterName];
+
+        selectedMonster.Attack(attackName, targetedMonster);
     }
 }

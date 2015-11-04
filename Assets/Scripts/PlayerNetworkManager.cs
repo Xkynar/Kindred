@@ -110,4 +110,24 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         ServerManager.instance.SwitchTurn();
     }
+
+    public void Attack(string selectedMonster, string targetedMonster, string attackName)
+    {
+        if (isLocalPlayer)
+        {
+            CmdAttack(selectedMonster, targetedMonster, attackName);
+        }
+    }
+
+    [Command]
+    public void CmdAttack(string selectedMonster, string targetedMonster, string attackName)
+    {
+        RpcAttack(selectedMonster, targetedMonster, attackName);
+    }
+
+    [ClientRpc]
+    public void RpcAttack(string selectedMonster, string targetedMonster, string attackName)
+    {
+        ClientManager.instance.Attack(selectedMonster, targetedMonster, attackName);
+    }
 }
