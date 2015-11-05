@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class ClientManager : MonoBehaviour
 {
-    public static ClientManager instance = null;
+    public static ClientManager Instance = null;
 
     private PlayerNetworkManager networkManager;
     private GameState gameState;
@@ -17,11 +17,11 @@ public class ClientManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
@@ -33,27 +33,13 @@ public class ClientManager : MonoBehaviour
         RegisterMonsters();
     }
 
-    public void SetLocalPlayer(PlayerNetworkManager localPlayer)
-    {
-        this.networkManager = localPlayer;
-    }
-
     /*
-     * Displays a "Ready" button on the main HUD. Called by the local player.
+     * Sets a reference to network manager responsible for the local player. 
+     * This is used for all events that need to communicate with the server and other clients.
      */
-    public void ShowReadyButton()
+    public void SetLocalPlayer(PlayerNetworkManager networkManager)
     {
-        this.readyButton.SetActive(true);
-    }
-
-    /*
-     * Callback for the "Ready" button clicked event. Alerts the local player to update its copies.
-     */
-    public void SetPlayerReady(bool ready)
-    {
-        SetPlayerMonsters();
-        SetGameState(GameState.WAIT_TURN);
-        networkManager.SetPlayerReady(ready);
+        this.networkManager = networkManager;
     }
 
     /*
@@ -76,7 +62,7 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
-     * Sets monster ownership of all visible monsters for local player. 
+     * Sets ownership of all visible monsters. 
      */
     private void SetPlayerMonsters()
     {
@@ -94,74 +80,78 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
-     * Sets the client's game state
+    * Displays a "READY" button on the main HUD. Called by the local player.
+    */
+    public void DisplayReadyButton()
+    {
+        this.readyButton.SetActive(true);
+    }
+
+    /*
+     * Callback for the "READY" button clicked event. Sets ownership of all visible monsters and alerts the server.
+     */
+    public void OnReadyButtonClick(bool ready)
+    {
+        SetPlayerMonsters();
+        SetGameState(GameState.WAIT_TURN);
+        networkManager.SetPlayerReady(ready);
+    }
+
+    /*
+     * Sets the client's game state.
      */
     public void SetGameState(GameState gameState)
     {
         this.gameState = gameState;
 
-        //Handle this gamestate
         switch (gameState)
         {
             case GameState.WAIT_TURN:
-                Debug.Log("Wait Turn");
+                Debug.Log("NEW STATE: WAIT_TURN");
                 break;
 
-            case GameState.PICK_MONSTER:
-                Debug.Log("Pick Monster");
+            case GameState.SELECT_MONSTER:
+                Debug.Log("NEW STATE: SELECT_MONSTER");
                 break;
 
             case GameState.SELECT_ACTION:
-                Debug.Log("Select Action");
+                Debug.Log("NEW STATE: SELECT_ACTION");
                 break;
 
             case GameState.TARGET_MONSTER:
-                Debug.Log("Target Monster");
+                Debug.Log("NEW STATE: TARGET_MONSTER");
                 break;
 
             case GameState.WAIT_ACTION:
-                Debug.Log("Wait Action");
+                Debug.Log("NEW STATE: WAIT_ACTION");
                 break;
         }
     }
 
-    public void ClickedMonster(MonsterController clicked)
+    /*
+     * Callback for the player's actions. Handles actions with a state machine.
+     */
+    public void OnMonsterClick(MonsterController clickedMonster)
     {
         switch (gameState)
         {
-            case GameState.WAIT_TURN:
-                Debug.Log("Can't do shit atm");
+            case GameState.SETUP:
+                Debug.Log("The game hasn't started yet.");
                 break;
 
-            case GameState.PICK_MONSTER:
-                if (clicked.IsMine())
-                {
-                    Debug.Log("Selected " + clicked.gameObject.name);
-                    selectedMonster = clicked;
-                    SetGameState(GameState.TARGET_MONSTER);
-                }
-                else
-                {
-                    Debug.Log("Can't do that, son");
-                }
-                
+            case GameState.WAIT_TURN:
+                Debug.Log("Not your turn. Can't do anything.");
+                break;
+
+            case GameState.SELECT_MONSTER:
+                HandleSelectMonsterState(clickedMonster);
                 break;
 
             case GameState.SELECT_ACTION:
                 break;
 
             case GameState.TARGET_MONSTER:
-                if (!clicked.IsMine())
-                {
-                    Debug.Log("Chose to attack " + clicked.gameObject.name);
-                    networkManager.Attack(selectedMonster.GetMonsterName(), clicked.GetMonsterName(), "Peace Breaker");
-                    SetGameState(GameState.WAIT_ACTION);
-                }
-                else
-                {
-                    Debug.Log("Can't attack your own. Should re-pick here.");
-                }
-                
+                HandleTargetMonsterState(clickedMonster);
                 break;
 
             case GameState.WAIT_ACTION:
@@ -170,15 +160,65 @@ public class ClientManager : MonoBehaviour
         }
     }
 
+    /*
+     * Handles processing during the SELECT_MONSTER state.
+     */
+    private void HandleSelectMonsterState(MonsterController clickedMonster)
+    {
+        if (clickedMonster.IsMine())
+        {
+            Debug.Log("Selected " + clickedMonster.GetMonsterName() + ".");
+
+            selectedMonster = clickedMonster;
+            selectedMonster.Select();
+            SetGameState(GameState.TARGET_MONSTER);
+        }
+        else
+        {
+            Debug.Log("You have to choose one of your own monsters.");
+        }
+                
+    }
+
+    /*
+     * Handles processing during the TARGET_MONSTER state.
+     */
+    private void HandleTargetMonsterState(MonsterController clickedMonster)
+    {
+        if (!clickedMonster.IsMine())
+        {
+            Debug.Log("Chose to attack " + clickedMonster.GetMonsterName() + ".");
+
+            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), "Peace Breaker");
+            SetGameState(GameState.WAIT_ACTION);
+        }
+        else
+        {
+            Debug.Log("Re-selected " + clickedMonster.GetMonsterName() + ".");
+
+            selectedMonster.Deselect();
+            selectedMonster = clickedMonster;
+            selectedMonster.Select();
+            SetGameState(GameState.TARGET_MONSTER);
+        }
+    }
+
+    /*
+     * Triggered by the monster currently attacking. Once its animation finishes, the turn is over.
+     */
     public void EndTurn()
     {
-        // if I initiated the attack and am waiting its return
+        // note that this will run on all clients, but the player that initiated the turn should be the only one to end it
         if (gameState == GameState.WAIT_ACTION)
         {
+            selectedMonster.Deselect();
             networkManager.EndTurn();
         }   
     }
 
+    /*
+     * Initiates an attack. Called via RPC, by the PlayerNetworkManager, so all clients can sync attacks.
+     */
     public void Attack(string selectedMonsterName, string targetedMonsterName, string attackName)
     {
         MonsterController selectedMonster = monsters[selectedMonsterName];

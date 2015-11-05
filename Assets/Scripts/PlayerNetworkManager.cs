@@ -4,9 +4,10 @@ using System.Collections;
 
 public class PlayerNetworkManager : NetworkBehaviour
 {
-    public bool ready = false;
     [SyncVar] public string role;
     [SyncVar] public string nickname;
+
+    private bool ready = false;
 
     void Start()
     {
@@ -15,25 +16,27 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            // Share setup info
+            // share setup info with server and all clients
             CmdSetup(PlayerPrefs.GetString("role"), PlayerPrefs.GetString("nickname"));
 
-            // Save local player for later access
-            ClientManager.instance.SetLocalPlayer(this);
+            // store local player for later access
+            ClientManager.Instance.SetLocalPlayer(this);
 
             if (role != "SPEC")
             {
-                // Show Ready Button on HUD
-                ClientManager.instance.ShowReadyButton();
+                // display a READY button
+                ClientManager.Instance.DisplayReadyButton();
             }
         }
     }
-    
-    /* 
-     * Setup:
-     * Server will spread every client's role and nickname to all copies
-     * Sever will store Player1 and Player2 for later access
-     */
+
+    /****************************************************************************
+     * Setup Process
+     * 
+     * Stores a client's role and info as SyncVars so all clients can access them.
+     * Stores references to Player1 and Player2 for later access.
+     ****************************************************************************/
+
     [Command]
     void CmdSetup(string role, string nickname)
     {
@@ -42,19 +45,25 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (role == "P1")
         {
-            ServerManager.instance.SetPlayerP1(this);
+            ServerManager.Instance.SetPlayerP1(this);
         }
         else if (role == "P2")
         {
-            ServerManager.instance.SetPlayerP2(this);
+            ServerManager.Instance.SetPlayerP2(this);
         }
     }
 
-    /* 
-     * Ready:
-     * Server spreads ready info to all copies
-     * The server copy check if all players are ready and starts the game
-     */
+    /****************************************************************************
+     * Ready-up Process
+     * 
+     * Alerts all players of a client's ready state.
+     * If both players are ready, the game is initiated.
+     ****************************************************************************/
+
+    public bool IsReady()
+    {
+        return ready;
+    }
 
     public void SetPlayerReady(bool ready)
     {
@@ -79,22 +88,28 @@ public class PlayerNetworkManager : NetworkBehaviour
         {
             if (ServerManager.instance.ArePlayersReady())
             {
-                ServerManager.instance.StartGame();
+                ServerManager.Instance.StartGame();
             }
         }
     }
+
+    /****************************************************************************
+     * Turn-based Events
+     * 
+     * Responsible for starting and ending the turns for all players.
+     ****************************************************************************/
 
     [ClientRpc]
     public void RpcSetTurn()
     {
         if (isLocalPlayer)
         {
-            Debug.Log("It's YOUR turn");
-            ClientManager.instance.SetGameState(GameState.PICK_MONSTER);
+            Debug.Log("It's YOUR turn!");
+            ClientManager.Instance.SetGameState(GameState.SELECT_MONSTER);
         }
         else
         {
-            Debug.Log("It's " + nickname + "'s turn");
+            Debug.Log("It's " + nickname + "'s turn!");
         }
     }
 
@@ -102,7 +117,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            ClientManager.instance.SetGameState(GameState.WAIT_TURN);
+            ClientManager.Instance.SetGameState(GameState.WAIT_TURN);
             CmdEndTurn();
         }
     }
@@ -110,8 +125,15 @@ public class PlayerNetworkManager : NetworkBehaviour
     [Command]
     public void CmdEndTurn()
     {
-        ServerManager.instance.SwitchTurn();
+        ServerManager.Instance.SwitchTurn();
     }
+
+    /****************************************************************************
+     * Attack Events
+     * 
+     * Responsible for coordenating and syncing attacks and animations across all 
+     * clients.
+     ****************************************************************************/
 
     public void Attack(string selectedMonster, string targetedMonster, string attackName)
     {
@@ -130,6 +152,6 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcAttack(string selectedMonster, string targetedMonster, string attackName)
     {
-        ClientManager.instance.Attack(selectedMonster, targetedMonster, attackName);
+        ClientManager.Instance.Attack(selectedMonster, targetedMonster, attackName);
     }
 }

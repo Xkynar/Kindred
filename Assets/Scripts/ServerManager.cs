@@ -3,25 +3,25 @@ using System.Collections;
 
 public class ServerManager : MonoBehaviour
 {
-    public static ServerManager instance = null;
+    public static ServerManager Instance = null;
 
-    public PlayerNetworkManager p1, p2;
+    private PlayerNetworkManager p1, p2;
     private PlayerNetworkManager currentPlayer;
 
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
     }
 
     /*
-     * Starts the turn-based game. Call after all players are ready.
+     * Starts the turn-based game. Called once all players are ready.
      */
     public void StartGame()
     {
@@ -30,7 +30,7 @@ public class ServerManager : MonoBehaviour
     }
 
     /*
-     * Switch player turn
+     * Switches players turns.
      */
     public void SwitchTurn()
     {
@@ -47,7 +47,7 @@ public class ServerManager : MonoBehaviour
     }
 
     /*
-     * Stores Player1 for later use
+     * Stores Player1 for later use.
      */
     public void SetPlayerP1(PlayerNetworkManager p1)
     {
@@ -55,7 +55,7 @@ public class ServerManager : MonoBehaviour
     }
 
     /*
-     * Stores Player2 for later use
+     * Stores Player2 for later use.
      */
     public void SetPlayerP2(PlayerNetworkManager p2)
     {
@@ -63,10 +63,10 @@ public class ServerManager : MonoBehaviour
     }
 
     /*
-     * Returns true if all players are ready
+     * Returns true if all players are ready.
      */
     public bool ArePlayersReady()
     {
-        return p1 != null && p2 != null && p1.ready && p2.ready;
+        return p1 != null && p2 != null && p1.IsReady() && p2.IsReady();
     }
 }
