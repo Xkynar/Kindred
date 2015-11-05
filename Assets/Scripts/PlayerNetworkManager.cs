@@ -11,7 +11,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     void Start()
     {
         //PlayerPrefs.SetString("role", "P1");
-        //PlayerPrefs.SetString("nickname", "vascozzz");
+        //PlayerPrefs.SetString("nickname", "Xkynar");
 
         if (isLocalPlayer)
         {
@@ -77,7 +77,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-            if(ServerManager.instance.ArePlayersReady())
+            if (ServerManager.instance.ArePlayersReady())
             {
                 ServerManager.instance.StartGame();
             }

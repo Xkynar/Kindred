@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="outrocard" size="1.000000 1.000000" />
-    <ImageTarget name="autistacard" size="1.000000 1.000000" />
+    <ImageTarget name="yshmeel" size="1.000000 1.000000" />
+    <ImageTarget name="undead" size="1.000000 1.000000" />
+    <ImageTarget name="tutankhamun" size="1.000000 1.000000" />
+    <ImageTarget name="simba" size="1.000000 1.000000" />
+    <ImageTarget name="minotaur" size="1.000000 1.000000" />
+    <ImageTarget name="kermit" size="1.000000 1.000000" />
+    <ImageTarget name="frosty" size="1.000000 1.000000" />
+    <ImageTarget name="ember" size="1.000000 1.000000" />
+    <ImageTarget name="cyclops" size="1.000000 1.000000" />
+    <ImageTarget name="bruce" size="1.000000 1.000000" />
+    <ImageTarget name="bones" size="1.000000 1.000000" />
     <ImageTarget name="arenarune" size="1.000000 1.000000" />
-    <ImageTarget name="devtarget" size="10.000000 10.000000" />
   </Tracking>
 </QCARConfig>
