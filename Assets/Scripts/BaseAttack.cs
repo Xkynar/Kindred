@@ -66,7 +66,7 @@ public abstract class BaseAttack : ScriptableObject {
         }
 
         animator.SetBool("Running", false);
-        ClientManager.instance.EndTurn();
+        ClientManager.Instance.EndTurn();
     }
 
     public string GetName()

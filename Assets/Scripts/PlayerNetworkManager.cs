@@ -86,7 +86,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-            if (ServerManager.instance.ArePlayersReady())
+            if (ServerManager.Instance.ArePlayersReady())
             {
                 ServerManager.Instance.StartGame();
             }
