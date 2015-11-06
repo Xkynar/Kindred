@@ -12,7 +12,6 @@ public class ClientManager : MonoBehaviour
     private MonsterController selectedMonster;
     private Dictionary<string, MonsterController> monsters;
 
-    [SerializeField] GameObject readyButton;
     [SerializeField] GameObject ARCamera;
 
     void Awake()
@@ -62,6 +61,16 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
+     * Sets everything up to start the game.
+     */
+    public void ReadyUp()
+    {
+        SetPlayerMonsters();
+        SetGameState(GameState.WAIT_TURN);
+        networkManager.SetPlayerReady(true);
+    }
+
+    /*
      * Sets ownership of all visible monsters. 
      */
     private void SetPlayerMonsters()
@@ -79,23 +88,6 @@ public class ClientManager : MonoBehaviour
         }
     }
 
-    /*
-    * Displays a "READY" button on the main HUD. Called by the local player.
-    */
-    public void DisplayReadyButton()
-    {
-        this.readyButton.SetActive(true);
-    }
-
-    /*
-     * Callback for the "READY" button clicked event. Sets ownership of all visible monsters and alerts the server.
-     */
-    public void OnReadyButtonClick(bool ready)
-    {
-        SetPlayerMonsters();
-        SetGameState(GameState.WAIT_TURN);
-        networkManager.SetPlayerReady(ready);
-    }
 
     /*
      * Sets the client's game state.
@@ -148,6 +140,7 @@ public class ClientManager : MonoBehaviour
                 break;
 
             case GameState.SELECT_ACTION:
+                HandleSelectAction(clickedMonster);
                 break;
 
             case GameState.TARGET_MONSTER:
@@ -171,7 +164,8 @@ public class ClientManager : MonoBehaviour
 
             selectedMonster = clickedMonster;
             selectedMonster.Select();
-            SetGameState(GameState.TARGET_MONSTER);
+            HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+            SetGameState(GameState.SELECT_ACTION);
         }
         else
         {
@@ -189,7 +183,8 @@ public class ClientManager : MonoBehaviour
         {
             Debug.Log("Chose to attack " + clickedMonster.GetMonsterName() + ".");
 
-            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), "Peace Breaker");
+            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), HUDManager.Instance.GetSelectedAttackIndex());
+            HUDManager.Instance.CloseAttackUI();
             SetGameState(GameState.WAIT_ACTION);
         }
         else
@@ -199,7 +194,25 @@ public class ClientManager : MonoBehaviour
             selectedMonster.Deselect();
             selectedMonster = clickedMonster;
             selectedMonster.Select();
-            SetGameState(GameState.TARGET_MONSTER);
+            HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+            SetGameState(GameState.SELECT_ACTION);
+        }
+    }
+
+    /**
+     * Handles the process during the SELECT_ACTION state.
+     */
+    private void HandleSelectAction(MonsterController clickedMonster)
+    {
+        if(clickedMonster.IsMine())
+        {
+            Debug.Log("Re-selected " + clickedMonster.GetMonsterName() + ".");
+
+            selectedMonster.Deselect();
+            selectedMonster = clickedMonster;
+            selectedMonster.Select();
+            HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+            SetGameState(GameState.SELECT_ACTION);
         }
     }
 
@@ -219,11 +232,11 @@ public class ClientManager : MonoBehaviour
     /*
      * Initiates an attack. Called via RPC, by the PlayerNetworkManager, so all clients can sync attacks.
      */
-    public void Attack(string selectedMonsterName, string targetedMonsterName, string attackName)
+    public void Attack(string selectedMonsterName, string targetedMonsterName, int attackIndex)
     {
         MonsterController selectedMonster = monsters[selectedMonsterName];
         MonsterController targetedMonster = monsters[targetedMonsterName];
 
-        selectedMonster.Attack(attackName, targetedMonster);
+        selectedMonster.Attack(targetedMonster, attackIndex);
     }
 }

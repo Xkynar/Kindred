@@ -4,9 +4,12 @@ using System.Collections;
 public class YshmeelSkullCracker : BaseAttack
 {
 
-    protected override void Init()
+    public override void Init()
     {
         attackName = "Skull Cracker";
         runningSpeed = 1;
+        damage = 10f;
+        manaCost = 10f;
+        attackDistance = 1f;
     }
 }

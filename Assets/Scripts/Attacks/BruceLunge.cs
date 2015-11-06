@@ -4,20 +4,12 @@ using System.Collections;
 public class BruceLunge : BaseAttack
 {
 
-    protected override void Init()
+    public override void Init()
     {
         attackName = "Lunge";
         runningSpeed = 2;
+        damage = 10f;
+        manaCost = 10f;
+        attackDistance = 1f;
     }
-
-    protected override void BeforeAttack()
-    {
-        Debug.Log("Before Attack");
-    }
-
-    protected override void AfterAttack()
-    {
-        Debug.Log("After Attack");
-    }
-
 }

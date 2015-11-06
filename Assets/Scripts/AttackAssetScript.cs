@@ -2,10 +2,17 @@
 using System.Collections;
 using System.IO;
 using System;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
-
 class AttackAssetScript : Editor {
+
+    [MenuItem("Tools/Refresh Attacks")]
+    public static void RefreshAttacks()
+    {
+        AssetDatabase.Refresh();
+    }
 
     [MenuItem("Tools/Create Attacks")]
     public static void CreateAttacks()
@@ -37,3 +44,4 @@ class AttackAssetScript : Editor {
 
 
 }
+#endif

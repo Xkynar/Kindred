@@ -11,8 +11,8 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     void Start()
     {
-        //PlayerPrefs.SetString("role", "P1");
-        //PlayerPrefs.SetString("nickname", "Xkynar");
+        // PlayerPrefs.SetString("role", "P1");
+        // PlayerPrefs.SetString("nickname", "Xkynar");
 
         if (isLocalPlayer)
         {
@@ -25,7 +25,7 @@ public class PlayerNetworkManager : NetworkBehaviour
             if (role != "SPEC")
             {
                 // display a READY button
-                ClientManager.Instance.DisplayReadyButton();
+                HUDManager.Instance.DisplayReadyButton();
             }
         }
     }
@@ -86,10 +86,8 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-            if (ServerManager.Instance.ArePlayersReady())
-            {
+           // if (ServerManager.Instance.ArePlayersReady())
                 ServerManager.Instance.StartGame();
-            }
         }
     }
 
@@ -102,6 +100,9 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSetTurn()
     {
+        //Hide ready button
+        HUDManager.Instance.HideReadyButton();
+
         if (isLocalPlayer)
         {
             Debug.Log("It's YOUR turn!");
@@ -135,23 +136,23 @@ public class PlayerNetworkManager : NetworkBehaviour
      * clients.
      ****************************************************************************/
 
-    public void Attack(string selectedMonster, string targetedMonster, string attackName)
+    public void Attack(string selectedMonster, string targetedMonster, int attackIndex)
     {
         if (isLocalPlayer)
         {
-            CmdAttack(selectedMonster, targetedMonster, attackName);
+            CmdAttack(selectedMonster, targetedMonster, attackIndex);
         }
     }
 
     [Command]
-    public void CmdAttack(string selectedMonster, string targetedMonster, string attackName)
+    public void CmdAttack(string selectedMonster, string targetedMonster, int attackIndex)
     {
-        RpcAttack(selectedMonster, targetedMonster, attackName);
+        RpcAttack(selectedMonster, targetedMonster, attackIndex);
     }
 
     [ClientRpc]
-    public void RpcAttack(string selectedMonster, string targetedMonster, string attackName)
+    public void RpcAttack(string selectedMonster, string targetedMonster, int attackIndex)
     {
-        ClientManager.Instance.Attack(selectedMonster, targetedMonster, attackName);
+        ClientManager.Instance.Attack(selectedMonster, targetedMonster, attackIndex);
     }
 }

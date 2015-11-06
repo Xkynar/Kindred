@@ -31,4 +31,9 @@ public class MonsterHealth : MonoBehaviour
         currentHealth = Mathf.Max(0, currentHealth - damage);
         SetHealthUI();
     }
+
+    public float GetHealth()
+    {
+        return currentHealth;
+    }
 }

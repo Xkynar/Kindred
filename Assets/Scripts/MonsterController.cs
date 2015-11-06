@@ -22,6 +22,11 @@ public class MonsterController : MonoBehaviour
         animator = this.GetComponent<Animator>();
         health = this.GetComponent<MonsterHealth>();
 
+        foreach(BaseAttack attack in attacks)
+        {
+            attack.Init();
+        }
+
         if (meshRenderer != null)
         {
             initialOutline = meshRenderer.material.GetColor("_OutlineColor");
@@ -85,16 +90,28 @@ public class MonsterController : MonoBehaviour
     /*
      * Initiates an attack coroutine.
      */
-    public void Attack(string attackName, MonsterController targetMonster)
+    public void Attack(MonsterController targetMonster, int attackIndex)
     {
-        StartCoroutine(attacks[0].routine(this, targetMonster));
+        StartCoroutine(attacks[attackIndex].Routine(this, targetMonster));
     }
 
     /*
      * Handled separately in the event that something else needs to occur.
      */
-    public void GetHit()
+    public void GetHit(float damage)
     {
+        health.TakeDamage(damage);
+        
+        if(health.GetHealth() <= 0)
+        {
+            animator.SetTrigger("Death");
+        }
+
         animator.SetTrigger("Hit");
+    }
+
+    public BaseAttack[] GetAttacks()
+    {
+        return attacks;
     }
 }
