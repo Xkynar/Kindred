@@ -36,7 +36,7 @@ public class ClientManager : MonoBehaviour
         RegisterMonsters();
         
         currentMana = initialMana;
-        HUDManager.Instance.SetMaxMana(maxMana);
+        HUDManager.Instance.InitMana(initialMana, maxMana);
     }
 
     /*
@@ -46,13 +46,19 @@ public class ClientManager : MonoBehaviour
     {
         SetGameState(GameState.SELECT_MONSTER);
 
-        currentMana = Mathf.Max(maxMana, currentMana + manaIncrement);
+        currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
         HUDManager.Instance.UpdateMana(currentMana);
     }
 
     public float GetCurrentMana()
     {
         return currentMana;
+    }
+
+    public void UpdateMana(float manaCost)
+    {
+        currentMana -= manaCost;
+        HUDManager.Instance.UpdateMana(currentMana);
     }
 
     /*
@@ -205,9 +211,12 @@ public class ClientManager : MonoBehaviour
         if (!clickedMonster.IsMine())
         {
             Debug.Log("Chose to attack " + clickedMonster.GetMonsterName() + ".");
+            
+            int attackIndex = HUDManager.Instance.GetSelectedAttackIndex();
 
-            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), HUDManager.Instance.GetSelectedAttackIndex());
+            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), attackIndex);
             HUDManager.Instance.CloseAttackUI();
+            UpdateMana(selectedMonster.GetAttack(attackIndex).GetManaCost());
             SetGameState(GameState.WAIT_ACTION);
         }
         else

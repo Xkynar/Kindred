@@ -114,4 +114,9 @@ public class MonsterController : MonoBehaviour
     {
         return attacks;
     }
+
+    public BaseAttack GetAttack(int index)
+    {
+        return attacks[index];
+    }
 }

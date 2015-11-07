@@ -25,11 +25,11 @@ public class HUDManager : MonoBehaviour {
         }
     }
 
-    public void SetMaxMana(float value)
+    public void InitMana(float initialMana, float maxMana)
     {
-        manaSlider.maxValue = value;
-        manaSlider.value = 0f;
-        manaValue.text = "0";
+        manaSlider.maxValue = maxMana;
+        manaSlider.value = initialMana;
+        manaValue.text = initialMana.ToString();
     }
 
     public void UpdateMana(float value)

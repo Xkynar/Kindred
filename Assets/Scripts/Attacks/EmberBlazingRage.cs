@@ -17,8 +17,9 @@ public class EmberBlazingRage : BaseAttack
 
     protected override void BeforeAttack(Transform selectedTransf, Transform targetedTransf)
     {
-        effectObj = Instantiate(effect, selectedTransf.position, selectedTransf.rotation) as GameObject;
-        effectObj.transform.parent = selectedTransf.transform.parent;
+        effectObj = Instantiate(effect, targetedTransf.position, targetedTransf.rotation) as GameObject;
+        effectObj.transform.parent = targetedTransf.transform.parent;
+        effectObj.transform.localPosition = new Vector3(0f, 0.5f, 0f);
     }
 
     protected override void AfterAttack(Transform selectedTransf, Transform targetedTransf)
