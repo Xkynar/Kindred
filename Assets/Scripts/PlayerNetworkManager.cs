@@ -181,14 +181,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcGameOver(string winner)
     {
-        if (winner == this.nickname)
-        {
-            Debug.Log("You win!");
-        }
-        else
-        {
-            Debug.Log(nickname + "wins");
-        }
+        Debug.Log(winner + " wins!");
 
         ClientManager.Instance.EndGame();
     }

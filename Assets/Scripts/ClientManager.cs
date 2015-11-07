@@ -156,23 +156,18 @@ public class ClientManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.WAIT_TURN:
-                Debug.Log("NEW STATE: WAIT_TURN");
                 break;
 
             case GameState.SELECT_MONSTER:
-                Debug.Log("NEW STATE: SELECT_MONSTER");
                 break;
 
             case GameState.SELECT_ACTION:
-                Debug.Log("NEW STATE: SELECT_ACTION");
                 break;
 
             case GameState.TARGET_MONSTER:
-                Debug.Log("NEW STATE: TARGET_MONSTER");
                 break;
 
             case GameState.WAIT_ACTION:
-                Debug.Log("NEW STATE: WAIT_ACTION");
                 break;
         }
     }
