@@ -174,13 +174,14 @@ public class PlayerNetworkManager : NetworkBehaviour
     [Command]
     public void CmdGameOver()
     {
-        RpcGameOver();
+        PlayerNetworkManager opponent = ServerManager.Instance.GetOpponent(this);
+        RpcGameOver(opponent.nickname);
     }
 
     [ClientRpc]
-    public void RpcGameOver()
+    public void RpcGameOver(string winner)
     {
-        if (isLocalPlayer)
+        if (winner == this.nickname)
         {
             Debug.Log("You win!");
         }

@@ -80,10 +80,17 @@ public class ClientManager : MonoBehaviour
     */
     public void StartTurn()
     {
-        SetGameState(GameState.SELECT_MONSTER);
+        if (IsGameOver())
+        {
+            networkManager.GameOver();
+        }
+        else
+        {
+            SetGameState(GameState.SELECT_MONSTER);
 
-        currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
-        HUDManager.Instance.UpdateMana(currentMana);
+            currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
+            HUDManager.Instance.UpdateMana(currentMana);
+        }    
     }
 
     /*
@@ -283,16 +290,9 @@ public class ClientManager : MonoBehaviour
         // note that this will run on all clients, but the player that initiated the turn should be the only one to end it
         if (gameState == GameState.WAIT_ACTION)
         {
-            if (IsGameOver())
-            {
-                networkManager.GameOver();
-            }
-            else
-            {
-                selectedMonster.Deselect();
-                networkManager.EndTurn();
-            }
-        }   
+            selectedMonster.Deselect();
+            networkManager.EndTurn();
+        }
     }
 
     /*
@@ -307,7 +307,7 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
-     * 
+     * Ends the game.
      */
     public void EndGame()
     {

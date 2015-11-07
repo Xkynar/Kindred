@@ -69,4 +69,16 @@ public class ServerManager : MonoBehaviour
     {
         return p1 != null && p2 != null && p1.IsReady() && p2.IsReady();
     }
+
+    public PlayerNetworkManager GetOpponent(PlayerNetworkManager player)
+    {
+        if (p1 == player)
+        {
+            return p2;
+        }
+        else
+        {
+            return p1;
+        }
+    }
 }

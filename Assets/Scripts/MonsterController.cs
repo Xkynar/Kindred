@@ -130,9 +130,7 @@ public class MonsterController : MonoBehaviour
             animator.SetTrigger("Death");
             isAlive = false;
         }
-        else
-        {
-            animator.SetTrigger("Hit");
-        } 
+
+        animator.SetTrigger("Hit");
     }
 }
