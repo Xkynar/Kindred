@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -311,6 +312,6 @@ public class ClientManager : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
-        Application.LoadLevel(0);
+        networkManager.StopServer();
     }
 }

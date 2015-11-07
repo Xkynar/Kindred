@@ -11,9 +11,6 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     void Start()
     {
-        // PlayerPrefs.SetString("role", "P2");
-        // PlayerPrefs.SetString("nickname", "Xkynar");
-
         if (isLocalPlayer)
         {
             // share setup info with server and all clients
@@ -24,7 +21,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
             if (role != "SPEC")
             {
-                // display a READY button
+                // display a "READY" button
                 HUDManager.Instance.DisplayReadyButton();
             }
         }
@@ -182,7 +179,14 @@ public class PlayerNetworkManager : NetworkBehaviour
     public void RpcGameOver(string winner)
     {
         Debug.Log(winner + " wins!");
-
         ClientManager.Instance.EndGame();
+    }
+
+    public void StopServer()
+    {
+        if (isServer)
+        {
+            NetworkManager.singleton.StopHost();
+        }  
     }
 }
