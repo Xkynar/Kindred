@@ -8,8 +8,8 @@ public class EmberTitanSmash : BaseAttack
     {
         attackName = "Titan Smash";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 40f;
+        manaCost = 12f;
         attackDistance = 1f;
     }
 }

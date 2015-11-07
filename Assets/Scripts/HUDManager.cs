@@ -25,6 +25,19 @@ public class HUDManager : MonoBehaviour {
         }
     }
 
+    public void SetMaxMana(float value)
+    {
+        manaSlider.maxValue = value;
+        manaSlider.value = 0f;
+        manaValue.text = "0";
+    }
+
+    public void UpdateMana(float value)
+    {
+        manaSlider.value = value;
+        manaValue.text = value.ToString();
+    }
+
 
     /*
     * Displays a "READY" button on the main HUD. Called by the local player.
@@ -57,18 +70,27 @@ public class HUDManager : MonoBehaviour {
     {
         attacksGroup.SetActive(true);
         
-        //hide all attacks
-        foreach(Text attackSlot in attackSlots)
+        // hide all attacks
+        foreach (Text attackSlot in attackSlots)
         {
             attackSlot.transform.parent.gameObject.SetActive(false);
         }
 
-        //display the attacks
-        for(int i=0; i<attacks.Length; i++)
+        // display the attacks
+        for (int i=0; i<attacks.Length; i++)
         {
             Text attackSlot = attackSlots[i];
-            attackSlot.text = attacks[i].GetName();
+            attackSlot.text = attacks[i].GetName() + " (" + attacks[i].GetManaCost() + " Mana)";
             attackSlot.transform.parent.gameObject.SetActive(true);
+
+            if (ClientManager.Instance.GetCurrentMana() < attacks[i].GetManaCost())
+            {
+                attackSlot.transform.parent.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                attackSlot.transform.parent.GetComponent<Button>().interactable = true;
+            }
         }
     }
 

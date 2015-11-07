@@ -7,12 +7,16 @@ public class ClientManager : MonoBehaviour
 {
     public static ClientManager Instance = null;
 
+    [SerializeField] GameObject ARCamera;
+    [SerializeField] float initialMana;
+    [SerializeField] float maxMana;
+    [SerializeField] float manaIncrement;
+
+    private float currentMana;
     private PlayerNetworkManager networkManager;
     private GameState gameState;
     private MonsterController selectedMonster;
     private Dictionary<string, MonsterController> monsters;
-
-    [SerializeField] GameObject ARCamera;
 
     void Awake()
     {
@@ -30,6 +34,25 @@ public class ClientManager : MonoBehaviour
     {
         SetGameState(GameState.SETUP);
         RegisterMonsters();
+        
+        currentMana = initialMana;
+        HUDManager.Instance.SetMaxMana(maxMana);
+    }
+
+    /*
+     * Called by the server, via the PlayerNetworkManager, whenever a new turn is initiated.
+     */
+    public void StartTurn()
+    {
+        SetGameState(GameState.SELECT_MONSTER);
+
+        currentMana = Mathf.Max(maxMana, currentMana + manaIncrement);
+        HUDManager.Instance.UpdateMana(currentMana);
+    }
+
+    public float GetCurrentMana()
+    {
+        return currentMana;
     }
 
     /*

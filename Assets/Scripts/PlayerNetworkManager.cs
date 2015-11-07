@@ -11,7 +11,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
     void Start()
     {
-        // PlayerPrefs.SetString("role", "P1");
+        // PlayerPrefs.SetString("role", "P2");
         // PlayerPrefs.SetString("nickname", "Xkynar");
 
         if (isLocalPlayer)
@@ -86,7 +86,7 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-           // if (ServerManager.Instance.ArePlayersReady())
+           if (ServerManager.Instance.ArePlayersReady())
                 ServerManager.Instance.StartGame();
         }
     }
@@ -106,7 +106,7 @@ public class PlayerNetworkManager : NetworkBehaviour
         if (isLocalPlayer)
         {
             Debug.Log("It's YOUR turn!");
-            ClientManager.Instance.SetGameState(GameState.SELECT_MONSTER);
+            ClientManager.Instance.StartTurn();
         }
         else
         {

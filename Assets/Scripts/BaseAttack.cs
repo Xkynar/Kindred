@@ -86,4 +86,9 @@ public abstract class BaseAttack : ScriptableObject {
     {
         return attackName;
     }
+
+    public float GetManaCost()
+    {
+        return manaCost;
+    }
 }

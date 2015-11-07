@@ -9,7 +9,7 @@ public class EmberFireKnuckle : BaseAttack
         attackName = "Fire Knuckle";
         runningSpeed = 1;
         damage = 10f;
-        manaCost = 10f;
+        manaCost = 5f;
         attackDistance = 1f;
     }
 }
