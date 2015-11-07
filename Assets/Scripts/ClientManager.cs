@@ -40,21 +40,16 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
-     * Called by the server, via the PlayerNetworkManager, whenever a new turn is initiated.
+     * 
      */
-    public void StartTurn()
-    {
-        SetGameState(GameState.SELECT_MONSTER);
-
-        currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
-        HUDManager.Instance.UpdateMana(currentMana);
-    }
-
     public float GetCurrentMana()
     {
         return currentMana;
     }
 
+    /*
+     * Responsible for updating current mana and respective HUD elements.
+     */
     public void UpdateMana(float manaCost)
     {
         currentMana -= manaCost;
@@ -68,6 +63,27 @@ public class ClientManager : MonoBehaviour
     public void SetLocalPlayer(PlayerNetworkManager networkManager)
     {
         this.networkManager = networkManager;
+    }
+
+    /*
+     * Sets everything up to start the game.
+     */
+    public void ReadyUp()
+    {
+        SetPlayerMonsters();
+        SetGameState(GameState.WAIT_TURN);
+        networkManager.SetPlayerReady(true);
+    }
+
+    /*
+    * Called by the server, via the PlayerNetworkManager, whenever a new turn is initiated.
+    */
+    public void StartTurn()
+    {
+        SetGameState(GameState.SELECT_MONSTER);
+
+        currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
+        HUDManager.Instance.UpdateMana(currentMana);
     }
 
     /*
@@ -90,16 +106,6 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
-     * Sets everything up to start the game.
-     */
-    public void ReadyUp()
-    {
-        SetPlayerMonsters();
-        SetGameState(GameState.WAIT_TURN);
-        networkManager.SetPlayerReady(true);
-    }
-
-    /*
      * Sets ownership of all visible monsters. 
      */
     private void SetPlayerMonsters()
@@ -117,6 +123,21 @@ public class ClientManager : MonoBehaviour
         }
     }
 
+    /*
+     * Checks whether all of a player's monsters are dead and the game should end.
+     */
+    private bool IsGameOver()
+    {
+        foreach (MonsterController monster in monsters.Values)
+        {
+            if (monster.IsMine() && monster.IsAlive())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /*
      * Sets the client's game state.
@@ -187,18 +208,17 @@ public class ClientManager : MonoBehaviour
      */
     private void HandleSelectMonsterState(MonsterController clickedMonster)
     {
-        if (clickedMonster.IsMine())
+        if (clickedMonster.IsMine() && clickedMonster.IsAlive())
         {
-            Debug.Log("Selected " + clickedMonster.GetMonsterName() + ".");
-
             selectedMonster = clickedMonster;
             selectedMonster.Select();
             HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+
             SetGameState(GameState.SELECT_ACTION);
         }
         else
         {
-            Debug.Log("You have to choose one of your own monsters.");
+            Debug.Log("Choose a valid monster to attack with.");
         }
                 
     }
@@ -208,26 +228,33 @@ public class ClientManager : MonoBehaviour
      */
     private void HandleTargetMonsterState(MonsterController clickedMonster)
     {
-        if (!clickedMonster.IsMine())
+        // target a living enemy monster
+        if (!clickedMonster.IsMine() && clickedMonster.IsAlive())
         {
-            Debug.Log("Chose to attack " + clickedMonster.GetMonsterName() + ".");
-            
             int attackIndex = HUDManager.Instance.GetSelectedAttackIndex();
 
-            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), attackIndex);
             HUDManager.Instance.CloseAttackUI();
             UpdateMana(selectedMonster.GetAttack(attackIndex).GetManaCost());
+            networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), attackIndex);
+
             SetGameState(GameState.WAIT_ACTION);
         }
-        else
-        {
-            Debug.Log("Re-selected " + clickedMonster.GetMonsterName() + ".");
 
+        // if we select one of our own, update the selected monster
+        else if (clickedMonster.IsMine() && clickedMonster.IsAlive())
+        {
             selectedMonster.Deselect();
             selectedMonster = clickedMonster;
             selectedMonster.Select();
             HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+
             SetGameState(GameState.SELECT_ACTION);
+        }
+
+        // 
+        else
+        {
+            Debug.Log("Choose a valid target, or re-select a monsters to attack with");
         }
     }
 
@@ -236,14 +263,14 @@ public class ClientManager : MonoBehaviour
      */
     private void HandleSelectAction(MonsterController clickedMonster)
     {
-        if(clickedMonster.IsMine())
+        // if we select one of our own, update the selected monster
+        if(clickedMonster.IsMine() && clickedMonster.IsAlive())
         {
-            Debug.Log("Re-selected " + clickedMonster.GetMonsterName() + ".");
-
             selectedMonster.Deselect();
             selectedMonster = clickedMonster;
             selectedMonster.Select();
             HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+
             SetGameState(GameState.SELECT_ACTION);
         }
     }
@@ -256,8 +283,15 @@ public class ClientManager : MonoBehaviour
         // note that this will run on all clients, but the player that initiated the turn should be the only one to end it
         if (gameState == GameState.WAIT_ACTION)
         {
-            selectedMonster.Deselect();
-            networkManager.EndTurn();
+            if (IsGameOver())
+            {
+                networkManager.GameOver();
+            }
+            else
+            {
+                selectedMonster.Deselect();
+                networkManager.EndTurn();
+            }
         }   
     }
 
@@ -270,5 +304,18 @@ public class ClientManager : MonoBehaviour
         MonsterController targetedMonster = monsters[targetedMonsterName];
 
         selectedMonster.Attack(targetedMonster, attackIndex);
+    }
+
+    /*
+     * 
+     */
+    public void EndGame()
+    {
+        Invoke("ReturnToMainMenu", 5f);
+    }
+
+    private void ReturnToMainMenu()
+    {
+        Application.LoadLevel(0);
     }
 }

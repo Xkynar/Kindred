@@ -48,7 +48,7 @@ public class HUDManager : MonoBehaviour {
     }
 
     /*
-     * Hide READY button
+     * Hide "READY" button.
      */
     public void HideReadyButton()
     {
@@ -64,7 +64,7 @@ public class HUDManager : MonoBehaviour {
     }
 
     /*
-     * Opens attack UI with the correct attack names
+     * Opens attack UI with the correct attack names.
      */
     public void OpenAttackUI(BaseAttack[] attacks)
     {
@@ -95,7 +95,7 @@ public class HUDManager : MonoBehaviour {
     }
 
     /*
-     * Handles the click of each attack in the HUD
+     * Handles the click of each attack in the HUD.
      */
     public void AttackButtonHandler(int index)
     {
@@ -104,7 +104,7 @@ public class HUDManager : MonoBehaviour {
     }
 
     /*
-     * Hides the attack UI
+     * Hides the attack UI.
      */
     public void CloseAttackUI()
     {
@@ -112,7 +112,7 @@ public class HUDManager : MonoBehaviour {
     }
 
     /*
-     * Returns the selected attack
+     * Returns the selected attack.
      */
     public int GetSelectedAttackIndex()
     {

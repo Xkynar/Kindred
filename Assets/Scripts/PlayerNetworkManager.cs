@@ -87,7 +87,9 @@ public class PlayerNetworkManager : NetworkBehaviour
         if (isServer)
         {
            if (ServerManager.Instance.ArePlayersReady())
-                ServerManager.Instance.StartGame();
+           {
+               ServerManager.Instance.StartGame();
+           }   
         }
     }
 
@@ -154,5 +156,39 @@ public class PlayerNetworkManager : NetworkBehaviour
     public void RpcAttack(string selectedMonster, string targetedMonster, int attackIndex)
     {
         ClientManager.Instance.Attack(selectedMonster, targetedMonster, attackIndex);
+    }
+
+    /****************************************************************************
+     * Game Over
+     * 
+     * Responsible for alerting all players that the game is now over.
+     ****************************************************************************/
+    public void GameOver()
+    {
+        if (isLocalPlayer)
+        {
+            CmdGameOver();
+        }
+    }
+
+    [Command]
+    public void CmdGameOver()
+    {
+        RpcGameOver();
+    }
+
+    [ClientRpc]
+    public void RpcGameOver()
+    {
+        if (isLocalPlayer)
+        {
+            Debug.Log("You win!");
+        }
+        else
+        {
+            Debug.Log(nickname + "wins");
+        }
+
+        ClientManager.Instance.EndGame();
     }
 }

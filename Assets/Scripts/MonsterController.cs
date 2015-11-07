@@ -6,15 +6,14 @@ public class MonsterController : MonoBehaviour
     public float runningSpeed;
     public float turningSpeed;
     public SkinnedMeshRenderer meshRenderer;
+    public BaseAttack[] attacks;
 
     private string monsterName;
     private Animator animator;
     private MonsterHealth health;
     private bool isMine = false;
-
-    public BaseAttack[] attacks;
-
     private Color initialOutline;
+    private bool isAlive = true;
 
     void Start()
     {
@@ -47,6 +46,30 @@ public class MonsterController : MonoBehaviour
     public bool IsMine()
     {
         return isMine;
+    }
+
+    /*
+     * 
+     */
+    public bool IsAlive()
+    {
+        return isAlive;
+    }
+
+    /*
+     * 
+     */
+    public BaseAttack[] GetAttacks()
+    {
+        return attacks;
+    }
+
+    /*
+     * 
+     */
+    public BaseAttack GetAttack(int index)
+    {
+        return attacks[index];
     }
 
     /*
@@ -105,18 +128,11 @@ public class MonsterController : MonoBehaviour
         if(health.GetHealth() <= 0)
         {
             animator.SetTrigger("Death");
+            isAlive = false;
         }
-
-        animator.SetTrigger("Hit");
-    }
-
-    public BaseAttack[] GetAttacks()
-    {
-        return attacks;
-    }
-
-    public BaseAttack GetAttack(int index)
-    {
-        return attacks[index];
+        else
+        {
+            animator.SetTrigger("Hit");
+        } 
     }
 }
