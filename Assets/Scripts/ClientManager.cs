@@ -42,6 +42,34 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
+    * Sets everything up to start the game.
+    */
+    public void ReadyUp()
+    {
+        SetPlayerMonsters();
+        SetGameState(GameState.WAIT_TURN);
+        networkManager.SetPlayerReady(true);
+    }
+
+    /*
+    * Called by the server, via the PlayerNetworkManager, whenever a new turn is initiated.
+    */
+    public void StartTurn()
+    {
+        if (IsGameOver())
+        {
+            networkManager.GameOver();
+        }
+        else
+        {
+            SetGameState(GameState.SELECT_MONSTER);
+
+            currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
+            HUDManager.Instance.UpdateMana(currentMana);
+        }
+    }
+
+    /*
      * 
      */
     public float GetCurrentMana()
@@ -65,34 +93,6 @@ public class ClientManager : MonoBehaviour
     public void SetLocalPlayer(PlayerNetworkManager networkManager)
     {
         this.networkManager = networkManager;
-    }
-
-    /*
-     * Sets everything up to start the game.
-     */
-    public void ReadyUp()
-    {
-        SetPlayerMonsters();
-        SetGameState(GameState.WAIT_TURN);
-        networkManager.SetPlayerReady(true);
-    }
-
-    /*
-    * Called by the server, via the PlayerNetworkManager, whenever a new turn is initiated.
-    */
-    public void StartTurn()
-    {
-        if (IsGameOver())
-        {
-            networkManager.GameOver();
-        }
-        else
-        {
-            SetGameState(GameState.SELECT_MONSTER);
-
-            currentMana = Mathf.Min(maxMana, currentMana + manaIncrement);
-            HUDManager.Instance.UpdateMana(currentMana);
-        }    
     }
 
     /*
@@ -161,12 +161,15 @@ public class ClientManager : MonoBehaviour
                 break;
 
             case GameState.SELECT_MONSTER:
+                HUDManager.Instance.DisplayArenaHint("Select a monster to attack with");
                 break;
 
             case GameState.SELECT_ACTION:
+                HUDManager.Instance.DisplayArenaHint("Pick an attack");
                 break;
 
             case GameState.TARGET_MONSTER:
+                HUDManager.Instance.DisplayArenaHint("Target an enemy");
                 break;
 
             case GameState.WAIT_ACTION:
@@ -182,11 +185,10 @@ public class ClientManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.SETUP:
-                Debug.Log("The game hasn't started yet.");
                 break;
 
             case GameState.WAIT_TURN:
-                Debug.Log("Not your turn. Can't do anything.");
+                HUDManager.Instance.DisplayArenaHint("It's not your turn yet");
                 break;
 
             case GameState.SELECT_MONSTER:
@@ -202,7 +204,6 @@ public class ClientManager : MonoBehaviour
                 break;
 
             case GameState.WAIT_ACTION:
-                Debug.Log("Waiting for attack to end...");
                 break;
         }
     }
@@ -222,7 +223,7 @@ public class ClientManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Choose a valid monster to attack with.");
+            HUDManager.Instance.DisplayArenaHint("Select a valid monster to attack with");
         }
                 
     }
@@ -245,8 +246,8 @@ public class ClientManager : MonoBehaviour
     }
 
     /*
- * Handles processing during the TARGET_MONSTER state.
- */
+     * Handles processing during the TARGET_MONSTER state.
+     */
     private void HandleTargetMonsterState(MonsterController clickedMonster)
     {
         // target a living enemy monster
@@ -272,12 +273,6 @@ public class ClientManager : MonoBehaviour
             HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
 
             SetGameState(GameState.SELECT_ACTION);
-        }
-
-        // 
-        else
-        {
-            Debug.Log("Choose a valid target, or re-select a monsters to attack with");
         }
     }
 

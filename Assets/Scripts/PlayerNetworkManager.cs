@@ -104,12 +104,12 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isLocalPlayer)
         {
-            Debug.Log("It's YOUR turn!");
+            HUDManager.Instance.DisplayArenaHint("It's your turn!");
             ClientManager.Instance.StartTurn();
         }
         else
         {
-            Debug.Log("It's " + nickname + "'s turn!");
+            HUDManager.Instance.DisplayArenaHint("It's " + nickname + "turn!");
         }
     }
 
@@ -178,7 +178,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcGameOver(string winner)
     {
-        Debug.Log(winner + " wins!");
+        HUDManager.Instance.DisplayArenaHint(winner + "wins!");
         ClientManager.Instance.EndGame();
     }
 

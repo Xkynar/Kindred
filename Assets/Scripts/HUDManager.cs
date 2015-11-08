@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour {
 
     public static HUDManager Instance;
+
     [SerializeField] GameObject readyButton;
     [SerializeField] GameObject attacksGroup;
     [SerializeField] Text manaValue;
     [SerializeField] Slider manaSlider;
     [SerializeField] Text[] attackSlots; //parent is button
     [SerializeField] GameObject miniCamera;
+    [SerializeField] TextMesh arenaHint;
 
     private int selectedAttackIndex;
 
@@ -137,5 +139,13 @@ public class HUDManager : MonoBehaviour {
     public void ResetMiniCamera()
     {
         miniCamera.SetActive(false);
+    }
+
+    /*
+     * Display a hint in the arena.
+     */
+    public void DisplayArenaHint(string hint)
+    {
+        arenaHint.text = hint;
     }
 }

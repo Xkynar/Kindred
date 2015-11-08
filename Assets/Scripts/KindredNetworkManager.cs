@@ -5,17 +5,24 @@ using System.Collections;
 
 public class KindredNetworkManager : NetworkManager 
 {
+    private Button hostBtn;
+    private Button joinBtn;
+    private Button p1Btn;
+    private Button p2Btn;
+    private Button specBtn;
+    private Text ipAddress;
+    private Text stateInfo;
+    private InputField playerNameInput;
+
     void Start()
     {
-        InputField playerNameInput = GameObject.Find("PlayerNameInput").GetComponent<InputField>();
-        string storedName = PlayerPrefs.GetString("nickname");
-
-        if (storedName != "")
-        {
-            playerNameInput.text = storedName;
-        }
+        SetMenuReferences();
+        CheckPlayerPrefs();
     }
 
+    /*
+     * Starts up a new server.
+     */
     public void CreateHost()
     {
         SetPlayerName();
@@ -25,6 +32,9 @@ public class KindredNetworkManager : NetworkManager
         NetworkManager.singleton.StartHost();
     }
 
+    /*
+     * Attempts to join a server.
+     */
     public void JoinGame()
     {
         SetPlayerName();
@@ -35,30 +45,74 @@ public class KindredNetworkManager : NetworkManager
         NetworkManager.singleton.StartClient();
     }
 
+    /*
+     * 
+     */
     void SetIpAddress()
     {
-        string ipAddress = GameObject.Find("AddressInput").transform.FindChild("Text").GetComponent<Text>().text;
-        NetworkManager.singleton.networkAddress = ipAddress;
+        NetworkManager.singleton.networkAddress = ipAddress.text;
     }
 
+    /*
+     * 
+     */
     void SetPort()
     {
         NetworkManager.singleton.networkPort = 7777;
     }
 
+    /*
+     * Saves the player's name so it can passed onto other scenes.
+     */
     public void SetPlayerName()
     {
-        string storedName = PlayerPrefs.GetString("nickname");
-
-        Debug.Log("storedName: " + storedName);
-
-        string playerName = GameObject.Find("PlayerNameInput").transform.FindChild("Text").GetComponent<Text>().text;
+        string playerName = playerNameInput.text;
         PlayerPrefs.SetString("nickname", playerName);
     }
 
+    /*
+     * Saves the player's role so it can passed onto other scenes.
+     */
     public void SetPlayerRole(string role)
     {
         PlayerPrefs.SetString("role", role);
+    }
+
+    /*
+     * Creates references to all elements in the menu so they can be accessed anywhere.
+     */
+    void SetMenuReferences()
+    {
+        hostBtn = GameObject.Find("HostBtn").GetComponent<Button>();
+        joinBtn = GameObject.Find("JoinBtn").GetComponent<Button>();
+        p1Btn = GameObject.Find("P1Btn").GetComponent<Button>();
+        p2Btn = GameObject.Find("P2Btn").GetComponent<Button>();
+        specBtn = GameObject.Find("SPECBtn").GetComponent<Button>();
+        ipAddress = GameObject.Find("AddressInput").transform.FindChild("Text").GetComponent<Text>();
+        stateInfo = GameObject.Find("StateInfo").GetComponent<Text>();
+        playerNameInput = GameObject.Find("PlayerNameInput").GetComponent<InputField>();
+    }
+
+    /*
+     * Checks if the player has already set a name before. If he has, the name is pre-selected.
+     */
+    void CheckPlayerPrefs()
+    {
+        string storedName = PlayerPrefs.GetString("nickname");
+
+        if (storedName != "")
+        {
+            playerNameInput.text = storedName;
+        }
+    }
+
+    /*
+     * Used to display general state info and network warnings.
+     */
+    void DisplayInfo(string info)
+    {
+        stateInfo.text = info;
+        stateInfo.enabled = true;
     }
 
     /*
@@ -89,12 +143,8 @@ public class KindredNetworkManager : NetworkManager
         // the two NetworkManagers (the new one, and the previous one that should be deleted)
         yield return new WaitForSeconds(0.3f);
 
-        Button hostBtn = GameObject.Find("HostBtn").GetComponent<Button>();
-        Button joinBtn = GameObject.Find("JoinBtn").GetComponent<Button>();
-        Button p1Btn = GameObject.Find("P1Btn").GetComponent<Button>();
-        Button p2Btn = GameObject.Find("P2Btn").GetComponent<Button>();
-        Button specBtn = GameObject.Find("SPECBtn").GetComponent<Button>();
-        Text playerName = GameObject.Find("PlayerNameInput").transform.FindChild("Text").GetComponent<Text>();
+        SetMenuReferences();
+        CheckPlayerPrefs();
 
         hostBtn.onClick.RemoveAllListeners();
         hostBtn.onClick.AddListener(CreateHost);
@@ -110,8 +160,6 @@ public class KindredNetworkManager : NetworkManager
 
         specBtn.onClick.RemoveAllListeners();
         specBtn.onClick.AddListener(delegate { SetPlayerRole("SPEC"); });
-
-        // @TODO handle nickname in playerprefs
     }
 
     /*
@@ -121,15 +169,5 @@ public class KindredNetworkManager : NetworkManager
     IEnumerator SetupGeneralScenes()
     {
         yield return new WaitForSeconds(0.3f);
-    }
-
-    /*
-     * Used to display general state info and network warnings.
-     */
-    void DisplayInfo(string info)
-    {
-        Text stateInfo = GameObject.Find("StateInfo").GetComponent<Text>();
-        stateInfo.text = info;
-        stateInfo.enabled = true;
     }
 }
