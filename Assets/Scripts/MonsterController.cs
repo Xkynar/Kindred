@@ -12,8 +12,10 @@ public class MonsterController : MonoBehaviour
     private Animator animator;
     private MonsterHealth health;
     private bool isMine = false;
-    private Color initialOutline;
     private bool isAlive = true;
+    private Color initialColor;
+    private Color selectionColor = Color.cyan;
+    private Color targetColor = Color.red;
 
     void Start()
     {
@@ -28,7 +30,7 @@ public class MonsterController : MonoBehaviour
 
         if (meshRenderer != null)
         {
-            initialOutline = meshRenderer.material.GetColor("_OutlineColor");
+            initialColor = meshRenderer.material.GetColor("_OutlineColor");
         }
     }
 
@@ -87,7 +89,7 @@ public class MonsterController : MonoBehaviour
     {
         if (meshRenderer != null)
         {
-            meshRenderer.material.SetColor("_OutlineColor", Color.cyan);
+            meshRenderer.material.SetColor("_OutlineColor", selectionColor);
         }
     }
 
@@ -98,7 +100,18 @@ public class MonsterController : MonoBehaviour
     {
         if (meshRenderer != null)
         {
-            meshRenderer.material.SetColor("_OutlineColor", initialOutline);
+            meshRenderer.material.SetColor("_OutlineColor", initialColor);
+        }
+    }
+
+    /*
+     * Changes the outline of a monster to indicate it is now targeted.
+     */
+    public void Target()
+    {
+        if (meshRenderer != null)
+        {
+            meshRenderer.material.SetColor("_OutlineColor", targetColor);
         }
     }
 

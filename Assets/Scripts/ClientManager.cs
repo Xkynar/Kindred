@@ -17,6 +17,7 @@ public class ClientManager : MonoBehaviour
     private PlayerNetworkManager networkManager;
     private GameState gameState;
     private MonsterController selectedMonster;
+    private MonsterController targetedMonster;
     private Dictionary<string, MonsterController> monsters;
 
     void Awake()
@@ -226,9 +227,26 @@ public class ClientManager : MonoBehaviour
                 
     }
 
-    /*
-     * Handles processing during the TARGET_MONSTER state.
+    /**
+     * Handles the process during the SELECT_ACTION state.
      */
+    private void HandleSelectAction(MonsterController clickedMonster)
+    {
+        // if we select one of our own, update the selected monster
+        if(clickedMonster.IsMine() && clickedMonster.IsAlive())
+        {
+            selectedMonster.Deselect();
+            selectedMonster = clickedMonster;
+            selectedMonster.Select();
+            HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
+
+            SetGameState(GameState.SELECT_ACTION);
+        }
+    }
+
+    /*
+ * Handles processing during the TARGET_MONSTER state.
+ */
     private void HandleTargetMonsterState(MonsterController clickedMonster)
     {
         // target a living enemy monster
@@ -236,6 +254,8 @@ public class ClientManager : MonoBehaviour
         {
             int attackIndex = HUDManager.Instance.GetSelectedAttackIndex();
 
+            targetedMonster = clickedMonster;
+            targetedMonster.Target();
             HUDManager.Instance.CloseAttackUI();
             UpdateMana(selectedMonster.GetAttack(attackIndex).GetManaCost());
             networkManager.Attack(selectedMonster.GetMonsterName(), clickedMonster.GetMonsterName(), attackIndex);
@@ -261,23 +281,6 @@ public class ClientManager : MonoBehaviour
         }
     }
 
-    /**
-     * Handles the process during the SELECT_ACTION state.
-     */
-    private void HandleSelectAction(MonsterController clickedMonster)
-    {
-        // if we select one of our own, update the selected monster
-        if(clickedMonster.IsMine() && clickedMonster.IsAlive())
-        {
-            selectedMonster.Deselect();
-            selectedMonster = clickedMonster;
-            selectedMonster.Select();
-            HUDManager.Instance.OpenAttackUI(clickedMonster.GetAttacks());
-
-            SetGameState(GameState.SELECT_ACTION);
-        }
-    }
-
     /*
      * Triggered by the monster currently attacking. Once its animation finishes, the turn is over.
      */
@@ -287,6 +290,7 @@ public class ClientManager : MonoBehaviour
         if (gameState == GameState.WAIT_ACTION)
         {
             selectedMonster.Deselect();
+            targetedMonster.Deselect();
             networkManager.EndTurn();
         }
     }

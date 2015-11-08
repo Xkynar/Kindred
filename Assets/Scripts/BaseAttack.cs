@@ -16,7 +16,6 @@ public abstract class BaseAttack : ScriptableObject {
     public IEnumerator Routine(MonsterController selectedMonster, MonsterController targetedMonster)
     {
         Transform originalTransf = selectedMonster.transform.parent;
-
         Transform selectedTransf = selectedMonster.transform;
         Transform targetedTransf = targetedMonster.transform;
 
