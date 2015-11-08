@@ -10,6 +10,7 @@ public class HUDManager : MonoBehaviour {
     [SerializeField] Text manaValue;
     [SerializeField] Slider manaSlider;
     [SerializeField] Text[] attackSlots; //parent is button
+    [SerializeField] GameObject miniCamera;
 
     private int selectedAttackIndex;
 
@@ -117,5 +118,24 @@ public class HUDManager : MonoBehaviour {
     public int GetSelectedAttackIndex()
     {
         return selectedAttackIndex;
+    }
+
+    /*
+     * Sets the HUD mini-camera as a child of a transform. Used to attach the camera to a monster.
+     */
+    public void SetMiniCamera(Transform anchor)
+    {
+        miniCamera.transform.parent = anchor;
+        miniCamera.transform.localPosition = new Vector3(0f, 0f, 0f);
+        miniCamera.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+        miniCamera.SetActive(true);
+    }
+
+    /*
+     * Hides the HUD mini-camera;
+     */
+    public void ResetMiniCamera()
+    {
+        miniCamera.SetActive(false);
     }
 }

@@ -16,12 +16,14 @@ public class MonsterController : MonoBehaviour
     private Color initialColor;
     private Color selectionColor = Color.cyan;
     private Color targetColor = Color.red;
+    private Transform miniCameraPos;
 
     void Start()
     {
         monsterName = this.gameObject.name;
         animator = this.GetComponent<Animator>();
         health = this.GetComponent<MonsterHealth>();
+        miniCameraPos = transform.Find("MiniCameraPos");
 
         foreach(BaseAttack attack in attacks)
         {
@@ -91,6 +93,11 @@ public class MonsterController : MonoBehaviour
         {
             meshRenderer.material.SetColor("_OutlineColor", selectionColor);
         }
+
+        if (miniCameraPos != null)
+        {
+            HUDManager.Instance.SetMiniCamera(miniCameraPos);
+        }
     }
 
     /*
@@ -102,6 +109,8 @@ public class MonsterController : MonoBehaviour
         {
             meshRenderer.material.SetColor("_OutlineColor", initialColor);
         }
+
+        HUDManager.Instance.ResetMiniCamera();
     }
 
     /*
