@@ -41,7 +41,6 @@ public class KindredNetworkManager : NetworkManager
         SetIpAddress();
         SetPort();
         DisplayInfo("You will be in the game in a moment...");
-
         NetworkManager.singleton.StartClient();
     }
 
