@@ -1,0 +1,310 @@
+fileFormatVersion: 2
+guid: cfe3d890edf993b4e851d97f8b00d502
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: toad
+    100002: toad 1
+    100004: toad Footsteps
+    100006: toad Head
+    100008: toad HeadNub
+    100010: toad L Calf
+    100012: toad L Clavicle
+    100014: toad L Finger0
+    100016: toad L Finger01
+    100018: toad L Finger0Nub
+    100020: toad L Finger1
+    100022: toad L Finger11
+    100024: toad L Finger1Nub
+    100026: toad L Foot
+    100028: toad L Forearm
+    100030: toad L Hand
+    100032: toad L Thigh
+    100034: toad L Toe0
+    100036: toad L Toe0Nub
+    100038: toad L UpperArm
+    100040: toad Neck
+    100042: toad Pelvis
+    100044: toad Prop1
+    100046: toad R Calf
+    100048: toad R Clavicle
+    100050: toad R Finger0
+    100052: toad R Finger01
+    100054: toad R Finger0Nub
+    100056: toad R Finger1
+    100058: toad R Finger11
+    100060: toad R Finger1Nub
+    100062: toad R Foot
+    100064: toad R Forearm
+    100066: toad R Hand
+    100068: toad R Thigh
+    100070: toad R Toe0
+    100072: toad R Toe0Nub
+    100074: toad R UpperArm
+    100076: toad Spine
+    100078: toad Tail
+    100080: toad Tail1
+    100082: toad Tail2
+    100084: toad Tail3
+    100086: toad Tail4
+    100088: toad TailNub
+    100090: //RootNode
+    100092: wepon
+    400000: toad
+    400002: toad 1
+    400004: toad Footsteps
+    400006: toad Head
+    400008: toad HeadNub
+    400010: toad L Calf
+    400012: toad L Clavicle
+    400014: toad L Finger0
+    400016: toad L Finger01
+    400018: toad L Finger0Nub
+    400020: toad L Finger1
+    400022: toad L Finger11
+    400024: toad L Finger1Nub
+    400026: toad L Foot
+    400028: toad L Forearm
+    400030: toad L Hand
+    400032: toad L Thigh
+    400034: toad L Toe0
+    400036: toad L Toe0Nub
+    400038: toad L UpperArm
+    400040: toad Neck
+    400042: toad Pelvis
+    400044: toad Prop1
+    400046: toad R Calf
+    400048: toad R Clavicle
+    400050: toad R Finger0
+    400052: toad R Finger01
+    400054: toad R Finger0Nub
+    400056: toad R Finger1
+    400058: toad R Finger11
+    400060: toad R Finger1Nub
+    400062: toad R Foot
+    400064: toad R Forearm
+    400066: toad R Hand
+    400068: toad R Thigh
+    400070: toad R Toe0
+    400072: toad R Toe0Nub
+    400074: toad R UpperArm
+    400076: toad Spine
+    400078: toad Tail
+    400080: toad Tail1
+    400082: toad Tail2
+    400084: toad Tail3
+    400086: toad Tail4
+    400088: toad TailNub
+    400090: //RootNode
+    400092: wepon
+    2300000: wepon
+    3300000: wepon
+    4300000: toad
+    4300002: wepon
+    7400000: Mon_T_Run
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: toad
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Mon_T_Run
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: toad
+        weight: 1
+      - path: toad 1
+        weight: 1
+      - path: toad 1/toad Footsteps
+        weight: 1
+      - path: toad 1/toad Pelvis
+        weight: 1
+      - path: toad 1/toad Pelvis/toad L Thigh
+        weight: 1
+      - path: toad 1/toad Pelvis/toad L Thigh/toad L Calf
+        weight: 1
+      - path: toad 1/toad Pelvis/toad L Thigh/toad L Calf/toad L Foot
+        weight: 1
+      - path: toad 1/toad Pelvis/toad L Thigh/toad L Calf/toad L Foot/toad L Toe0
+        weight: 1
+      - path: toad 1/toad Pelvis/toad L Thigh/toad L Calf/toad L Foot/toad L Toe0/toad
+          L Toe0Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad R Thigh
+        weight: 1
+      - path: toad 1/toad Pelvis/toad R Thigh/toad R Calf
+        weight: 1
+      - path: toad 1/toad Pelvis/toad R Thigh/toad R Calf/toad R Foot
+        weight: 1
+      - path: toad 1/toad Pelvis/toad R Thigh/toad R Calf/toad R Foot/toad R Toe0
+        weight: 1
+      - path: toad 1/toad Pelvis/toad R Thigh/toad R Calf/toad R Foot/toad R Toe0/toad
+          R Toe0Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad Head
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad Head/toad HeadNub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger0
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger0/toad L Finger01
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger0/toad L Finger01/toad L Finger0Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger1
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger1/toad L Finger11
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad L Clavicle/toad L UpperArm/toad
+          L Forearm/toad L Hand/toad L Finger1/toad L Finger11/toad L Finger1Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger0
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger0/toad R Finger01
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger0/toad R Finger01/toad R Finger0Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger1
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger1/toad R Finger11
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Spine/toad Neck/toad R Clavicle/toad R UpperArm/toad
+          R Forearm/toad R Hand/toad R Finger1/toad R Finger11/toad R Finger1Nub
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail/toad Tail1
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail/toad Tail1/toad Tail2
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail/toad Tail1/toad Tail2/toad Tail3
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail/toad Tail1/toad Tail2/toad Tail3/toad Tail4
+        weight: 1
+      - path: toad 1/toad Pelvis/toad Tail/toad Tail1/toad Tail2/toad Tail3/toad Tail4/toad
+          TailNub
+        weight: 1
+      - path: toad 1/toad Prop1
+        weight: 1
+      - path: toad 1/toad Prop1/wepon
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
