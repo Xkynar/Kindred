@@ -12,6 +12,7 @@ public class ClientManager : MonoBehaviour
     [SerializeField] float initialMana;
     [SerializeField] float maxMana;
     [SerializeField] float manaIncrement;
+    [SerializeField] GameObject monstersContainer;
 
     private float currentMana;
     private PlayerNetworkManager networkManager;
@@ -100,16 +101,20 @@ public class ClientManager : MonoBehaviour
      */
     private void RegisterMonsters()
     {
-        List<GameObject> imageTargets = ARCamera.GetComponent<TrackableList>().GetImageTargets();
         monsters = new Dictionary<string, MonsterController>();
 
-        foreach (GameObject imageTarget in imageTargets)
+        // only two levels, with each level having one GameObject
+        // GetComponentsInChildren() would iterate 10+ levels for each card
+        foreach (Transform trackable in monstersContainer.transform)
         {
-            MonsterController monsterController = imageTarget.GetComponentInChildren<MonsterController>();
-
-            if (monsterController != null)
+            foreach (Transform monster in trackable.transform)
             {
-                monsters.Add(monsterController.GetMonsterName(), monsterController);
+                MonsterController monsterController = monster.GetComponent<MonsterController>();
+
+                if (monsterController != null)
+                {
+                    monsters.Add(monsterController.GetMonsterName(), monsterController);
+                }
             }
         }
     }
