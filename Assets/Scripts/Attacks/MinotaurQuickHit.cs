@@ -7,9 +7,9 @@ public class MinotaurQuickHit : BaseAttack
     public override void Init()
     {
         attackName = "Quick Hit";
-        runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        runningSpeed = 2;
+        damage = 20f;
+        manaCost = 8f;
         attackDistance = 1f;
     }
 }

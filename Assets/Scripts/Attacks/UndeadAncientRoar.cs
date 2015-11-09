@@ -8,8 +8,8 @@ public class UndeadAncientRoar : BaseAttack
     {
         attackName = "Ancient Roar";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 30f;
+        manaCost = 13f;
         attackDistance = 1f;
     }
 }

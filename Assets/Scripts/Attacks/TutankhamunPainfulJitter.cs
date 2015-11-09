@@ -7,9 +7,9 @@ public class TutankhamunPainfulJitter : BaseAttack
     public override void Init()
     {
         attackName = "Painful Jitter";
-        runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        runningSpeed = 2;
+        damage = 5f;
+        manaCost = 3f;
         attackDistance = 1f;
     }
 }

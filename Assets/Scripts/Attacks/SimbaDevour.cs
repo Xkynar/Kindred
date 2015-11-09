@@ -8,7 +8,7 @@ public class SimbaDevour : BaseAttack
     {
         attackName = "Devour";
         runningSpeed = 1;
-        damage = 10f;
+        damage = 20f;
         manaCost = 10f;
         attackDistance = 1f;
     }

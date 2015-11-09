@@ -8,8 +8,8 @@ public class FrostyGlacialImpact : BaseAttack
     {
         attackName = "Glacial Impact";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 60f;
+        manaCost = 20f;
         attackDistance = 1f;
     }
 }

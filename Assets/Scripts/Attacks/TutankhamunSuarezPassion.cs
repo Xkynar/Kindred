@@ -8,8 +8,8 @@ public class TutankhamunSuarezPassion : BaseAttack
     {
         attackName = "Suarez Passion";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 12f;
+        manaCost = 5f;
         attackDistance = 1f;
     }
 }

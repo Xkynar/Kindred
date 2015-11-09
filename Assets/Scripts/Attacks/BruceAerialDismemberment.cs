@@ -8,8 +8,8 @@ public class BruceAerialDismemberment : BaseAttack
     {
         attackName = "Aerial Dismemberment";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 22f;
+        manaCost = 12f;
         attackDistance = 1f;
     }
 }

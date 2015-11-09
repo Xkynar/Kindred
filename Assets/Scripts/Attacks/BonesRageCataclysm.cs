@@ -6,9 +6,9 @@ public class BonesRageCataclysm : BaseAttack {
     public override void Init()
     {
         attackName = "Rage Cataclysm";
-        runningSpeed = 2;
-        damage = 10f;
-        manaCost = 10f;
+        runningSpeed = 1;
+        damage = 22f;
+        manaCost = 12f;
         attackDistance = 1f;
     }
 }

@@ -8,8 +8,8 @@ public class KermitWindmill : BaseAttack
     {
         attackName = "Windmill";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 30f;
+        manaCost = 12f;
         attackDistance = 1f;
     }
 }

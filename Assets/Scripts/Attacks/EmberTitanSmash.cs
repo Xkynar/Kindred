@@ -7,9 +7,9 @@ public class EmberTitanSmash : BaseAttack
     public override void Init()
     {
         attackName = "Titan Smash";
-        runningSpeed = 1;
+        runningSpeed = 2;
         damage = 40f;
-        manaCost = 12f;
+        manaCost = 15f;
         attackDistance = 1f;
     }
 }

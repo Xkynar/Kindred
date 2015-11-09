@@ -7,9 +7,9 @@ public class FrostyColdShoulder : BaseAttack
     public override void Init()
     {
         attackName = "Cold Shoulder";
-        runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        runningSpeed = 2;
+        damage = 40f;
+        manaCost = 15f;
         attackDistance = 1f;
     }
 }

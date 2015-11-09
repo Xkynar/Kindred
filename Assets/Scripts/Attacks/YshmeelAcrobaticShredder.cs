@@ -8,8 +8,8 @@ public class YshmeelAcrobaticShredder : BaseAttack
     {
         attackName = "Acrobatic Shredder";
         runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        damage = 115f;
+        manaCost = 17f;
         attackDistance = 1f;
     }
 }

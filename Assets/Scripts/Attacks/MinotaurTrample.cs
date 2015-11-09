@@ -7,9 +7,9 @@ public class MinotaurTrample : BaseAttack
     public override void Init()
     {
         attackName = "Trample";
-        runningSpeed = 1;
-        damage = 10f;
-        manaCost = 10f;
+        runningSpeed = 2;
+        damage = 25f;
+        manaCost = 11f;
         attackDistance = 1f;
     }
 }

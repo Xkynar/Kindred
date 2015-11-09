@@ -7,8 +7,8 @@ public class BruceDoubleCutter : BaseAttack
     public override void Init()
     {
         attackName = "Double Cutter";
-        runningSpeed = 1;
-        damage = 10f;
+        runningSpeed = 2;
+        damage = 19f;
         manaCost = 10f;
         attackDistance = 1f;
     }

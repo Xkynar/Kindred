@@ -83,10 +83,10 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-           if (ServerManager.Instance.ArePlayersReady())
-           {
+           //if (ServerManager.Instance.ArePlayersReady())
+           //{
                ServerManager.Instance.StartGame();
-           }   
+           //}   
         }
     }
 

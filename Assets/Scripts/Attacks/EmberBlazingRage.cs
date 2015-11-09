@@ -10,7 +10,7 @@ public class EmberBlazingRage : BaseAttack
     {
         attackName = "Blazing Rage";
         runningSpeed = 1;
-        damage = 70f;
+        damage = 60f;
         manaCost = 20f;
         attackDistance = 1f;
     }

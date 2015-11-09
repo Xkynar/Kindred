@@ -9,7 +9,7 @@ public class BruceLunge : BaseAttack
         attackName = "Lunge";
         runningSpeed = 2;
         damage = 10f;
-        manaCost = 10f;
+        manaCost = 5f;
         attackDistance = 1f;
     }
 }
