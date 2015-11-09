@@ -47,7 +47,7 @@ public class HUDManager : MonoBehaviour {
     */
     public void DisplayReadyButton()
     {
-        this.readyButton.SetActive(true);
+        readyButton.SetActive(true);
     }
 
     /*

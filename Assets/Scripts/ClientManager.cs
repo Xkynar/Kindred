@@ -311,7 +311,7 @@ public class ClientManager : MonoBehaviour
      */
     public void EndGame()
     {
-        Invoke("ReturnToMainMenu", 5f);
+        Invoke("ReturnToMainMenu", 10f);
     }
 
     private void ReturnToMainMenu()

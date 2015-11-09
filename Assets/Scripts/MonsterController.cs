@@ -18,7 +18,7 @@ public class MonsterController : MonoBehaviour
     private Color targetColor = Color.red;
     private Transform miniCameraPos;
 
-    void Start()
+    void Awake()
     {
         monsterName = this.gameObject.name;
         animator = this.GetComponent<Animator>();
