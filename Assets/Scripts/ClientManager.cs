@@ -14,6 +14,9 @@ public class ClientManager : MonoBehaviour
     [SerializeField] float manaIncrement;
     [SerializeField] GameObject monstersContainer;
 
+    [SerializeField] GameObject arena;
+    [SerializeField] GameObject endEffect;
+
     private float currentMana;
     private PlayerNetworkManager networkManager;
     private GameState gameState;
@@ -309,8 +312,14 @@ public class ClientManager : MonoBehaviour
     /*
      * Ends the game.
      */
-    public void EndGame()
+    public void EndGame(string winner)
     {
+        HUDManager.Instance.DisplayArenaHint(winner + "wins!");
+
+        GameObject effectObj = Instantiate(endEffect, arena.transform.position, arena.transform.rotation) as GameObject;
+        effectObj.transform.parent = arena.transform;
+        effectObj.transform.localEulerAngles = new Vector3(-90f, 0f, 0f);
+
         Invoke("ReturnToMainMenu", 10f);
     }
 

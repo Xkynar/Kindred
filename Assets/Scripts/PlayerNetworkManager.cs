@@ -83,10 +83,10 @@ public class PlayerNetworkManager : NetworkBehaviour
 
         if (isServer)
         {
-           //if (ServerManager.Instance.ArePlayersReady())
-           //{
+           if (ServerManager.Instance.ArePlayersReady())
+           {
                ServerManager.Instance.StartGame();
-           //}   
+           }   
         }
     }
 
@@ -178,8 +178,7 @@ public class PlayerNetworkManager : NetworkBehaviour
     [ClientRpc]
     public void RpcGameOver(string winner)
     {
-        HUDManager.Instance.DisplayArenaHint(winner + "wins!");
-        ClientManager.Instance.EndGame();
+        ClientManager.Instance.EndGame(winner);
     }
 
     public void StopServer()
